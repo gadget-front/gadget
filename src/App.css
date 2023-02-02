@@ -1,0 +1,8 @@
+.main-container {
+  display: grid;
+  grid-template-columns: 11.125rem calc(100% - 11.125rem);
+  grid-template-rows: 4.5rem calc(100% - 4.5rem);;
+  grid-template-areas: 
+  ' side header '
+  ' side category ';
+}

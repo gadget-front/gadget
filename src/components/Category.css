@@ -1,0 +1,11 @@
+.catagory-area {
+  background-color: #f2f3f4;
+  grid-area : category;
+  padding : 2rem;
+}
+
+.catagory-area > * {
+  background-color: #ffff;
+  height: 100%;
+  width: 100%;
+}

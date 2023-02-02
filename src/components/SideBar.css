@@ -1,0 +1,27 @@
+.side-bar {
+  width: 11.125rem;
+  height: 100vh;
+  border: solid 1px #d2d3d5;
+  grid-area : side;
+}
+
+.side-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  list-style:none;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap : 1rem;
+  margin: 1rem 1.5rem;
+}
+
+.group-side-container{
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin: 0 1.5rem;
+}
