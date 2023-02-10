@@ -12,6 +12,8 @@ const Chatting = lazy(() => import('./Chatting'));
 const TodoList = lazy(() => import('./TodoList'));
 
 export const Category = () => {
+  let spaceid = 1;
+  let pathdetail = `/board/${spaceid}/detail/:id`;
   return (
     <div className='catagory-area'>
         <Suspense fallback={<div>loading....</div>}>
@@ -19,7 +21,7 @@ export const Category = () => {
                 <Route path='/todo-list' element={<TodoList />}/>
                 <Route path="/todoList/:contentId" element={<TodoDetail/>} />
                 <Route path='/board' element={<Board />}/>
-                <Route path='/board/:id' element={<BoardDetail />} />
+                <Route path= {pathdetail} element={<BoardDetail />} />
                 <Route path='/chatting' element={<Chatting />} />
                 <Route path='/calender' element={<Calender />} />
                 <Route path='*' element={<NoChice />} />

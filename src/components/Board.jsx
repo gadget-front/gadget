@@ -20,9 +20,8 @@ export const Board = (props) => {
     <hr/>
     {list.map((element, index) => {
       return(
-        <div key={index} onClick={()=>{navigate(`/detail/${props.shirts.id}`)}}>
+        <div key={index} onClick={()=>{navigate(`/board/1/detail/${element.boardid}`)}}>
           <h3>{element.title}</h3>
-          <input type="text" value={element.boardid} hidden/>
           <p>{element.writer}({element.wdate}) <b>{element.repnum}</b></p>
           <hr/>
         </div>
