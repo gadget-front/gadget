@@ -4,6 +4,7 @@ import BoardDetail from './BoardDetail';
 
 import './Category.css';
 import { NoChice } from './NoChice';
+import TodoDetail from './TodoDetail';
 
 const Board = lazy(() => import('./Board'));
 const Calender = lazy(() => import('./Calender'));
@@ -16,6 +17,7 @@ export const Category = () => {
         <Suspense fallback={<div>loading....</div>}>
             <Routes>          
                 <Route path='/todo-list' element={<TodoList />}/>
+                <Route path="/todoList/:contentId" element={<TodoDetail/>} />
                 <Route path='/board' element={<Board />}/>
                 <Route path='/board/:id' element={<BoardDetail />} />
                 <Route path='/chatting' element={<Chatting />} />
