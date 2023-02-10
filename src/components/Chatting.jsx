@@ -2,7 +2,9 @@ import React from 'react'
 
 const Chatting = () => {
   return (
-    <div>Chatting</div>
+    <div>
+      <iframe src='http://localhost:8090/gadget/chat/room' width="1000px" height="850px"></iframe>
+    </div>
   )
 }
 
