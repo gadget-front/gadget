@@ -1,5 +1,6 @@
 import React, { Suspense, lazy } from 'react'
 import { Route, Routes } from 'react-router-dom';
+import BoardDetail from './BoardDetail';
 
 import './Category.css';
 import { NoChice } from './NoChice';
@@ -16,6 +17,7 @@ export const Category = () => {
             <Routes>          
                 <Route path='/todo-list' element={<TodoList />}/>
                 <Route path='/board' element={<Board />}/>
+                <Route path='/board/:id' element={<BoardDetail />} />
                 <Route path='/chatting' element={<Chatting />} />
                 <Route path='/calender' element={<Calender />} />
                 <Route path='*' element={<NoChice />} />

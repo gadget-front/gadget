@@ -109,8 +109,8 @@ export default class Calendar extends React.Component {
       })
       .then(response => {
         console.log(response.data );
-        
-        return this.setState({ data: response.data })
+        let resdata = [...response.data];
+        return this.setState({ data: resdata })
       })
       .catch(error => this.setState({ error }))
     }
@@ -124,7 +124,8 @@ export default class Calendar extends React.Component {
 
       axios.delete(`gadget/calendar/1/${clickInfo.event.id}`)
       .then(response => {
-        return this.setState({ data: response.data })
+        let resdata = [...response.data];
+        return this.setState({ data: resdata })
       })
       .catch(error => this.setState({ error }))
        clickInfo.event.remove();
@@ -152,7 +153,8 @@ export default class Calendar extends React.Component {
       headers:{'contentType':`application/json;charset=utf-8`}
     })
     .then(response => {
-      return this.setState({ data: response.data })
+      let resdata = [...response.data];
+      return this.setState({ data: resdata })
     })
     .catch(error => this.setState({ error }))
     
