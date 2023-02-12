@@ -2,6 +2,9 @@ import React from 'react'
 import Robot from '../icon/Robot.svg';
 import './SideBar.css';
 import { Link, NavLink } from 'react-router-dom';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import axios from 'axios';
 
 const SideBar = () => {
   const activeStyle = {
@@ -15,6 +18,16 @@ const SideBar = () => {
   const nonActiveStyle = {
     color: 'black'
   };
+
+  let spaceid = 1;
+  const [side, setSide] = useState([]); 
+  useEffect(() => {
+    axios.get(`/gadget/workspace/${spaceid}/side`)
+    .then((res) => {
+      console.log(res.data);
+      return setSide(res.data);
+    });
+  }, []);
 
   return (
     <aside className="side-bar">
@@ -40,9 +53,15 @@ const SideBar = () => {
           <li>
             <NavLink to={"/todo-list"} style={({isActive}) => (isActive ? activeStyle : nonActiveStyle)}>할일</NavLink>
           </li>
-          <li>
-            <NavLink to={"/board"} style={({isActive}) => (isActive ? activeStyle : nonActiveStyle)}>게시판</NavLink>
-          </li>
+          {
+            side.map((element, index) => {
+              return(
+                <li key={index}>
+                  <NavLink to={`/gadget/board/${element.bcodeid}`} style={({isActive}) => (isActive ? activeStyle : nonActiveStyle)}>{element.bcodename}</NavLink>
+                </li>
+              );
+            })
+          }
           <li>
              <NavLink to={"/chatting"} style={({isActive}) => (isActive ? activeStyle : nonActiveStyle)}>채팅</NavLink>
           </li>
