@@ -3,11 +3,11 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 function BoardDetail(props){
-    let {id} = useParams();
+    let {boardid} = useParams();
     const [page, setPage] = useState([]);
-    console.log(id);
+    console.log(boardid);
     useEffect(() => {
-        axios.get(`/gadget/board/1/detail/${id}`)
+        axios.get(`/gadget/board/1/detail/${boardid}`)
         .then((res) => {
           console.log(res.data);
           return setPage(res.data);
@@ -28,7 +28,7 @@ function BoardDetail(props){
         </div>
         <hr/>
         <button>수정하기</button>
-
+        <button>삭제하기</button>
     </div>
     )
 }

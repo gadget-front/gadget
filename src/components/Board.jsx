@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { event } from "jquery";
 import axios from "axios";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export const Board = (props) => {
+  let spaceid = 1;
+  let {bcodeid} = useParams();
   const [list, setList] = useState([]);
   useEffect(() => {
-    axios.get(`gadget/board/1/list/2`)
+    axios.get(`${spaceid}/list/${bcodeid}`)
     .then((res) => {
       let listdata = [...res.data];
       console.log(listdata);
@@ -20,7 +22,7 @@ export const Board = (props) => {
     <hr/>
     {list.map((element, index) => {
       return(
-        <div key={index} onClick={()=>{navigate(`/board/1/detail/${element.boardid}`)}}>
+        <div key={index} onClick={()=>{navigate(`/gadget/board/1/detail/${element.boardid}`)}}>
           <h3>{element.title}</h3>
           <p>{element.writer}({element.wdate}) <b>{element.repnum}</b></p>
           <hr/>
