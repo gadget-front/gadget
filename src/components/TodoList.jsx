@@ -3,6 +3,8 @@ import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { useQuery, useMutation, useQueryClient } from "react-query"
 import { useNavigate } from "react-router-dom";
 import { getTodos, addTodo, updateTodo, deleteTodo, getOrders, updateOrder } from "../api/todosApi";
+import PlusBtn from "../icon/PlusBtn.svg";
+import "./TodoList.css";
 
 const  TodoList = () => {
  
@@ -212,12 +214,12 @@ const  TodoList = () => {
   //   });
   // }
     
-  const addTodoMutation = useMutation(addTodo, {
-    onSuccess: () => {
-        // Invalidates cache and refetch 
-        queryClient.invalidateQueries("todos")
-      }
-  })
+  // const addTodoMutation = useMutation(addTodo, {
+  //   onSuccess: () => {
+  //       // Invalidates cache and refetch 
+  //       queryClient.invalidateQueries("todos")
+  //     }
+  // })
 
   const updateTodoMutation = useMutation(updateTodo, {
       onSuccess: () => {
@@ -234,19 +236,23 @@ const  TodoList = () => {
       }
   })
 
-  const deleteTodoMutation = useMutation(deleteTodo, {
-      onSuccess: () => {
-          // Invalidates cache and refetch 
-          queryClient.invalidateQueries("todos")
-      }
-  })
+  // const deleteTodoMutation = useMutation(deleteTodo, {
+  //     onSuccess: () => {
+  //         // Invalidates cache and refetch 
+  //         queryClient.invalidateQueries("todos")
+  //     }
+  // })
 
   if (isLoading) { return <h2>Loading...</h2> } 
   if (isError) { return <h2>{error.message}</h2> }
 
-  const sayHi = function (event) {
+  const detailPage = function (event) {
     console.log(`이벤트 발생 ${event.target.childNodes[0].data}`);
     navigate(`/todoList/${event.target.childNodes[0].data}`);
+  }
+
+  const addTodo = function(state) {
+    navigate(`/makeTodo/${state}`);   
   }
 
   return (
@@ -276,6 +282,8 @@ const  TodoList = () => {
                     <input ref={title} type="text" value={title} onChange={handleChange} placeholder="제목을 입력하세요"/>
                     <button type="submit">Submit</button>
                   </form> */}
+                 
+                  <div className="plus-btn-container" onClick={() => addTodo(column.name)}><img className="plus-btn" src={PlusBtn} alt="이미지 없음" /></div>
                   <Droppable droppableId={columnId} key={columnId}>
                     {(provided, snapshot) => {
                       return (
@@ -301,7 +309,7 @@ const  TodoList = () => {
                                 {(provided, snapshot) => {
                                   return (
                                     <div
-                                      onDoubleClick={sayHi}
+                                      onDoubleClick={detailPage}
                                       ref={provided.innerRef}
                                       {...provided.draggableProps}
                                       {...provided.dragHandleProps}
