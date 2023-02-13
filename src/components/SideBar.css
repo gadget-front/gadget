@@ -1,7 +1,7 @@
 .side-bar {
   width: 11.125rem;
-  height: 100vh;
-  border: solid 1px #d2d3d5;
+  height: 100%;
+  border-right: solid 1px #d2d3d5;
   grid-area : side;
 }
 
