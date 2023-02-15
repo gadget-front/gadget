@@ -51,14 +51,42 @@ export const BoardWrite = (props) => {
         setDisabled(false);
     }
     
+    function fileChange(file) {
+        let fileurl = "";
+        var form = new FormData();
+        form.append("image", file[0]);
+    
+        console.log(form);
+    
+        var settings = {
+            "url" : "https://api.imgbb.com/1/upload?key=bb2840aa7662570a5576bbd59c7c849a",
+            "method" : "POST",
+            "timeout" : 0,
+            "processData" : false,
+            "mimeType" : "multipart/form-data",
+            "contentType" : 'application/json',
+            "data" : form
+        };
+    
+        console.log(settings);
+    
+        $.ajax(settings).done(function(response) {
+            var jx = JSON.parse(response);
+            fileurl = jx.data.url;
+            console.log(fileurl);
+            $('#summernote').summernote('insertImage', fileurl);
+        });
+    }
 
     return(
     <div className="row">
         <div className="col-12">
         
         <div className="card">
+            <div className="card-header">
+                <h5 className="card-title">글쓰기</h5>
+            </div>
             <div className="card-body">
-            <h5 className="card-title">글쓰기</h5>
             <form onSubmit = {handleSubmit}>
             <div className="form-group">
                 <label>Title</label> 
@@ -108,33 +136,6 @@ export const BoardWrite = (props) => {
       </div>
     </div>
   );
-}
-
-function fileChange(file) {
-    let fileurl = "";
-    var form = new FormData();
-    form.append("image", file[0]);
-
-    console.log(form);
-
-    var settings = {
-        "url" : "https://api.imgbb.com/1/upload?key=bb2840aa7662570a5576bbd59c7c849a",
-        "method" : "POST",
-        "timeout" : 0,
-        "processData" : false,
-        "mimeType" : "multipart/form-data",
-        "contentType" : 'application/json',
-        "data" : form
-    };
-
-    console.log(settings);
-
-    $.ajax(settings).done(function(response) {
-        var jx = JSON.parse(response);
-        fileurl = jx.data.url;
-        console.log(fileurl);
-        $('#summernote').summernote('insertImage', fileurl);
-    });
 }
 
 export default BoardWrite;
