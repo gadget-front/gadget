@@ -4,8 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 export const Board = () => {
   const [pageNum, setPageNum] = useState(1);
-  let {spaceid} = useParams();
-  let {bcodeid} = useParams();
+  const { spaceid, bcodeid } = useParams();
   const [list, setList] = useState([]);
   let navigate = useNavigate();
 
@@ -16,34 +15,34 @@ export const Board = () => {
   const [startPage, setStartPage] = useState(0);//시작 페이지 번호(1, 11, 21..)
   const [realEnd, setRealEnd] = useState(0);//마지막 페이지 번호
 
+  //게시판 종류 바뀔때 초기화
+  useEffect(()=>{
+    setPageNum(1);
+  },[bcodeid]);
+
+  //게시판 리스트 출력
   useEffect(() => {
     axios.get(`/gadget/board/${spaceid}/list/${bcodeid}?pageNum=${pageNum}`)
     .then((res) => {
       setList([...res.data]);
-      
     });
-    //총 게시물 수
+  },[bcodeid,pageNum]);
+
+  //총 게시물 수 및 페이징 처리
+  useEffect(()=>{
     axios.get(`/gadget/board/count?bcodeid=${bcodeid}`)
     .then((res)=>{
-      setEndPage(Math.ceil(pageNum/10)*10);
-      setStartPage((Math.ceil(pageNum/10)*10)-9);
-      setPage(res.data);
-      setRealEnd(Math.ceil(res.data/10));
-      if(realEnd < endPage){
-        setEndPage(realEnd);
+      const num = Math.ceil(res.data / 10);
+      setRealEnd(num);
+      setEndPage(Math.ceil(pageNum / 10) * 10);
+      setStartPage(Math.ceil(pageNum / 10) * 10 - 9);
+      if (num < Math.ceil(pageNum / 10) * 10) {
+        setEndPage(num);
       }
-      setPrev((startPage > 1)? true: false);
-      setNext((endPage < realEnd) ? true: false); 
+      setPrev(Math.ceil(pageNum / 10) * 10 - 9 > 1);
+      setNext(Math.ceil(pageNum / 10) * 10 < num); 
     });
-  },[bcodeid, pageNum, page, realEnd]);
-
-  function pagenate(startPage, endPage){
-    let arr = [];
-    for(let i = startPage; i <= endPage; i++){
-      arr.push(i);
-    }
-    return arr;
-  }
+  },[bcodeid, page, pageNum]);
   
   return(<div className='row'>
     <div className='col-12'>
@@ -81,5 +80,13 @@ export const Board = () => {
   </div>);
 };
 
+
+function pagenate(startPage, endPage){
+  let arr = [];
+  for(let i = startPage; i <= endPage; i++){
+    arr.push(i);
+  }
+  return arr;
+}
 
 export default Board;

@@ -24,7 +24,6 @@ const SideBar = () => {
   useEffect(() => {
     axios.get(`/gadget/workspace/${spaceid}/side`)
     .then((res) => {
-      console.log(res.data);
       return setSide(res.data);
     });
   }, []);
