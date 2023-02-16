@@ -32,6 +32,7 @@ export const Board = () => {
   useEffect(()=>{
     axios.get(`/gadget/board/count?bcodeid=${bcodeid}`)
     .then((res)=>{
+      setPage(res.data);
       const num = Math.ceil(res.data / 10);
       setRealEnd(num);
       setEndPage(Math.ceil(pageNum / 10) * 10);
@@ -47,12 +48,12 @@ export const Board = () => {
   return(<div className='row'>
     <div className='col-12'>
     <div className='text-right'>
-      <button className='btn btn-outline-warning' onClick={()=>{navigate(`/gadget/board/${spaceid}/write/${bcodeid}`)}}>글쓰기</button>
+      <button className='btn btn-outline-warning' onClick={()=>{navigate(`/board/${spaceid}/write/${bcodeid}`)}}>글쓰기</button>
     </div>
     {list.map((element, index) => {
       return(
         <div className='card' key={index} >
-          <div className='card-body'onClick={()=>{navigate(`/gadget/board/1/detail/${element.boardid}`)}}>
+          <div className='card-body'onClick={()=>{navigate(`/board/1/detail/${element.boardid}`)}}>
             <h3 className='card-title'>{element.title} <span className='badge badge-secondary'>{element.repnum}</span></h3>
             <div className='text-right'><p>{element.writer}({element.wdate}) </p></div>
           </div>
@@ -65,15 +66,15 @@ export const Board = () => {
         <div className="btn-group" role="group">
           <button type="button" className="btn btn-secondary" onClick={()=>{
             setPageNum(startPage-1);
-            navigate(`/gadget/board/${spaceid}/list/${bcodeid}?pageNum=${startPage-1}`)}} disabled={!prev}>prev</button>
+            navigate(`/board/${spaceid}/list/${bcodeid}?pageNum=${startPage-1}`)}} disabled={!prev}>prev</button>
           {pagenate(startPage, endPage).map((e,i)=>{
             return(<button key={i} className="btn btn-secondary" onClick={()=>{
               setPageNum(e);
-              navigate(`/gadget/board/${spaceid}/list/${bcodeid}?pageNum=${e}`)}} disabled ={pageNum===e}>{e}</button>);
+              navigate(`/board/${spaceid}/list/${bcodeid}?pageNum=${e}`)}} disabled ={pageNum===e}>{e}</button>);
           })}
           <button type="button" className="btn btn-secondary" onClick={()=>{
             setPageNum(endPage+1);
-            navigate(`/gadget/board/${spaceid}/list/${bcodeid}?pageNum=${endPage+1}`)}} disabled ={!next}>next</button>
+            navigate(`/board/${spaceid}/list/${bcodeid}?pageNum=${endPage+1}`)}} disabled ={!next}>next</button>
         </div>
       </div>
     </div>

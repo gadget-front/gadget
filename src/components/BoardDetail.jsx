@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 
 function BoardDetail(props){
     let {spaceid} = useParams();
@@ -9,6 +11,11 @@ function BoardDetail(props){
     const [reply, setReply] = useState([]);
     const [a, setA] = useState(0);
     const [text, setText] = useState('');
+
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     const [repdata, setRepdata] = useState({
       'replyid':null,
@@ -37,7 +44,7 @@ function BoardDetail(props){
       <div className="col-12">
         <div className="card bg-light">
         <div className="card-header">
-          <button onClick={()=>{navigate(`/gadget/board/${spaceid}/list/${page.bcodeid}`)}} className='btn btn-outline-dark'>뒤로가기</button>
+          <button onClick={()=>{navigate(`/board/${spaceid}/list/${page.bcodeid}`)}} className='btn btn-outline-dark'>뒤로가기</button>
         </div>
         <div className="card-body">
         <h5 className="card-title">{page.title}</h5>
@@ -50,11 +57,27 @@ function BoardDetail(props){
         <div  className="card-text" dangerouslySetInnerHTML={{__html:page.content}}></div>
         <hr/>
         <div className="text-right">
-          <button className="btn btn-outline-warning">수정하기</button>
           <button onClick={()=>{
-            axios.delete(`/gadget/board/${boardid}`)
-            .then(navigate(`/gadget/board/${spaceid}/list/${page.bcodeid}`));
-          }} className="btn btn-outline-danger">삭제하기</button>
+            navigate(`/board/${spaceid}/modify/${boardid}`)
+          }} className="btn btn-outline-warning">수정하기</button>
+          <button onClick={handleShow} className="btn btn-outline-danger">삭제하기</button>
+          <Modal show={show} onHide={handleClose}>
+            <Modal.Header>
+              <Modal.Title>삭제</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>정말로 삭제 하시겠습니까? (삭제시 복구할 수 없습니다.)</Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleClose}>
+                뒤로가기
+              </Button>
+              <Button variant="primary" onClick={()=>{
+                axios.delete(`/gadget/board/${boardid}`)
+                .then(navigate(`/board/${spaceid}/list/${page.bcodeid}`));
+              }}>
+                삭제하기
+              </Button>
+            </Modal.Footer>
+          </Modal>
         </div>
         </div>
         </div>

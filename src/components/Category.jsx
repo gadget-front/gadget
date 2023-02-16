@@ -13,6 +13,7 @@ import TodoUpdate from './TodoUpdate';
 const Board = lazy(() => import('./Board'));
 const Calender = lazy(() => import('./Calender'));
 const BoardDetail = lazy(()=> import('./BoardDetail'));
+const BoardModify = lazy(()=>import('./BoardModify'));
 const Chatting = lazy(() => import('./Chatting'));
 const TodoList = lazy(() => import('./TodoList'));
 
@@ -24,8 +25,9 @@ export const Category = () => {
                 <Route path='/todo-list' element={<TodoList />}/>
                 <Route path="/todoList/:contentId" element={<TodoDetail/>} />
                 <Route path="/makeTodo/:state" element={<MakeTodoContent/>} />
-                <Route path='/gadget/board/:spaceid/list/:bcodeid' element={<Board />}/>
-                <Route path= '/gadget/board/:spaceid/detail/:boardid' element={<BoardDetail />} />
+                <Route path='/board/:spaceid/list/:bcodeid' element={<Board />}/>
+                <Route path= '/board/:spaceid/detail/:boardid' element={<BoardDetail />} />
+                <Route path= '/board/:spaceid/modify/:boardid' element={<BoardModify />} />
                 <Route path='/gadget/board/:spaceid/write/:bcodeid' element={<BoardWrite />}/>
                 <Route path='/chatting' element={<Chatting />} />
                 <Route path='/calender' element={<Calender />} />

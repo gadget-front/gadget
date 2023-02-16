@@ -56,7 +56,7 @@ const SideBar = () => {
             side.map((element, index) => {
               return(
                 <li key={index}>
-                  <NavLink to={`/gadget/board/1/list/${element.bcodeid}`} style={({isActive}) => (isActive ? activeStyle : nonActiveStyle)}>{element.bcodename}</NavLink>
+                  <NavLink to={`/board/1/list/${element.bcodeid}`} style={({isActive}) => (isActive ? activeStyle : nonActiveStyle)}>{element.bcodename}</NavLink>
                 </li>
               );
             })
