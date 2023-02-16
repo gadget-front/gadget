@@ -28,9 +28,9 @@ export const Category = () => {
                 <Route path='/board/:spaceid/list/:bcodeid' element={<Board />}/>
                 <Route path= '/board/:spaceid/detail/:boardid' element={<BoardDetail />} />
                 <Route path= '/board/:spaceid/modify/:boardid' element={<BoardModify />} />
-                <Route path='/gadget/board/:spaceid/write/:bcodeid' element={<BoardWrite />}/>
+                <Route path='/board/:spaceid/write/:bcodeid' element={<BoardWrite />}/>
                 <Route path='/chatting' element={<Chatting />} />
-                <Route path='/calender' element={<Calender />} />
+                <Route path='/calender/:spaceid' element={<Calender />} />
                 <Route path='/todo-update/:contentId' element={<TodoUpdate />} />
                 <Route path='*' element={<NoChice />} />
             </Routes>

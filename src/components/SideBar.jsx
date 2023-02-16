@@ -65,7 +65,7 @@ const SideBar = () => {
              <NavLink to={"/chatting"} style={({isActive}) => (isActive ? activeStyle : nonActiveStyle)}>채팅</NavLink>
           </li>
           <li>
-             <NavLink to={"/calender"} style={({isActive}) => (isActive ? activeStyle : nonActiveStyle)}>캘린더</NavLink>
+             <NavLink to={`/calender/${spaceid}`} style={({isActive}) => (isActive ? activeStyle : nonActiveStyle)}>캘린더</NavLink>
           </li>
         </ul>
       </div>

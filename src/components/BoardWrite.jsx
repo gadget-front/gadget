@@ -20,6 +20,36 @@ export const BoardWrite = (props) => {
 
     const actionurl = `/gadget/board/${spaceid}/detail`;
 
+    const options = {
+        height: 400,
+        focus: true,                  // 에디터 로딩후 포커스를 맞출지 여부
+        lang: "ko-KR",               // 한글 설정
+        dialogsInBody: true,
+        toolbar: [
+            ["style", ["style"]],
+            ['fontsize', ['fontsize']],
+            ['color', ['forecolor','color']],
+            ["font", ["bold", "underline", "clear"]],
+            ["fontname", ["fontname"]],
+            ['height', ['height']],
+            ["para", ["ul", "ol", "paragraph"]],
+            ["insert", ["picture", "link", "video","table", "hr"]],
+            ["view", ["fullscreen", "codeview"]],
+        ],
+        fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋움체','바탕체'],
+        fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72'],
+        callbacks :{
+            onImageUpload: function(files) {
+                return fileChange(files);
+            },
+        }
+    };
+
+    // Summernote가 변경될 때마다 content를 업데이트합니다.
+    function onChange(content) {
+        setContent(content);
+    }
+
     const handleSubmit = async (event) => {
         
         setDisabled(true);
@@ -98,32 +128,8 @@ export const BoardWrite = (props) => {
                 <br/>
                 <ReactSummernote
                 defaultValue="Default value"
-                options={{
-                    height: 400,
-                    focus: true,                  // 에디터 로딩후 포커스를 맞출지 여부
-                    lang: "ko-KR",               // 한글 설정
-                    dialogsInBody: true,
-                    toolbar: [
-                        ["style", ["style"]],
-                        ['fontsize', ['fontsize']],
-                        ['color', ['forecolor','color']],
-                        ["font", ["bold", "underline", "clear"]],
-                        ["fontname", ["fontname"]],
-                        ['height', ['height']],
-                        ["para", ["ul", "ol", "paragraph"]],
-                        ["table", ["table"]],
-                        ["view", ["fullscreen", "codeview"]],
-                    ],
-                    fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋움체','바탕체'],
-                    fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72'],
-                    callbacks :{
-                        onImageUpload: function(files) {
-                            console.log(files);
-                            return fileChange(files);
-                        },
-                    }
-                }}
-                onChange={(val)=> setContent(val)}
+                options={options}
+                onChange={onChange}
                 />
             </div>
     

@@ -1,31 +1,34 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import FullCalendar  from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import { formatDate } from '@fullcalendar/core'
 import axios from 'axios'
+import { useParams } from 'react-router-dom'
+import { Modal } from 'bootstrap'
+import { Button } from 'react-bootstrap'
 
-export default class Calendar extends React.Component {
+function Calendar(){
+  const {spaceid} = useParams();
+  const [weekendsVisible] = useState(true);
+  const [currentEvents, setCurrentEvents] = useState([]);
+  const [mounted, setMounted] = useState(false);
+  const [data, setData] = useState([]);
+  const [error, setError] = useState();
+  const [content, setContent] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const [modalTitle ,setModalTitle] = useState('');
+  const [modalStart, setModalStart] = useState('');
+  const [modalEnd, setModalEnd] = useState('');
 
-  state = {
-    weekendsVisible: true,
-    currentEvents: [],
-    mounted: false,
-    data:null,
-    error: null
-  };
-
-  componentDidMount() {  
-      axios.get(`gadget/calendar/1/list`)
-      .then(response => {
-        return this.setState({ data: response.data })
-      })
-      .catch(error => this.setState({ error }))
-    }  
-
-  render() {
-    const { data, error } = this.state;
+  useEffect(()=>{
+      axios.get(`/gadget/calendar/${spaceid}/list`)
+      .then((response) => {
+        setData(response.data);
+      });
+    },[]);
+    
 
     if (error) {
       return <p>Error: {error.message}</p>;
@@ -35,104 +38,63 @@ export default class Calendar extends React.Component {
       return <p>Loading...</p>;
     }
 
-    return (
-      <div className='demo-app'>
-        <div className='demo-app-main'>
-          <FullCalendar
-            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-            headerToolbar={{
-              left: 'prev,next today',
-              center: 'title',
-              right: 'dayGridMonth,timeGridWeek,timeGridDay'
-            }}
-            initialView='dayGridMonth'
-            editable={true}
-            selectable={true}
-            selectMirror={true}
-            dayMaxEvents={true}
-            weekends={this.state.weekendsVisible}
-            initialEvents={data} // alternatively, use the `events` setting to fetch from a feed
-            select={this.handleDateSelect}
-            eventContent={renderEventContent} // custom render function
-            eventClick={this.handleEventClick}
-            eventsSet={this.handleEvents} // called after events are initialized/added/changed/removed
-            eventDrop={this.changeEventTime}
-            /* you can update a remote database when these fire:
-            eventAdd={function(){}}
-            eventChange={function(){}}
-            eventRemove={function(){}}
-            */
-          />
-        </div>
-      </div>
-    )
-  }
-
-  handleWeekendsToggle = () => {
-    this.setState({
-      weekendsVisible: !this.state.weekendsVisible
-    })
-  }
-  calendarRef = React.createRef();
   //data input
-  handleDateSelect = (selectInfo) => {
-    let title = prompt('Please enter a new title for your event')
-    let calendarApi = selectInfo.view.calendar
-    let id = axios.get(`gadget/calendar/id`)
-    .then(response => {
-      return response
-    });
+  function handleDateSelect(selectInfo){
+    let title = prompt('Please enter a new title for your event');
+    let calendarApi = selectInfo.view.calendar;
+    
+    // const { event } = selectInfo;
+    // setShowModal(true);
+    // setModalTitle(event.title);
+    // setModalStart(event.start);
+    // setModalEnd(event.end);
 
     calendarApi.unselect() // clear date selection
     let data = {
-      "id": this.id++,
-      "groupId": "\""+this.id+"\"",
+      "id": null,
+      "groupId": null,
       "title": title,
       "writer": "user001",
       "userid": "user001",
-      "content": "content",
+      "content": content,
       "start": selectInfo.startStr,
       "end": selectInfo.endStr,
       "allday": selectInfo.allDay,
       "textColor": "black",
       "backgroundColor": "#e0e0e0",
       "borderColor": "#f0f0f0",
-      "spaceid": 1
+      "spaceid": spaceid,
     }
-    console.log(data);
     if (!title) {
       return;
     }else{
-      calendarApi.addEvent(data);
-      axios.post(`gadget/calendar/1`,data,{
+      axios.post(`/gadget/calendar/1`,data,{
         headers:{'contentType':`application/json;charset=utf-8`}
       })
       .then(response => {
-        console.log(response.data );
-        let resdata = [...response.data];
-        return this.setState({ data: resdata })
+        setData(response.data);
       })
-      .catch(error => this.setState({ error }))
+      .catch(error => setError(error));
     }
   }
 
-   handleEventClick = (clickInfo) => {
+  function handleEventClick(clickInfo) {
 
      if (window.confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
       let calendarApi = clickInfo.view.calendar;
       calendarApi.unselect();
 
-      axios.delete(`gadget/calendar/1/${clickInfo.event.id}`)
+      axios.delete(`/gadget/calendar/1/${clickInfo.event.id}`)
       .then(response => {
         let resdata = [...response.data];
-        return this.setState({ data: resdata })
+        setData(resdata)
       })
-      .catch(error => this.setState({ error }))
+      .catch(error => setError(error));
        clickInfo.event.remove();
      }
    }
 
-   changeEventTime = (draginfo) => {
+   function changeEventTime(draginfo) {
     let data = {
       "id": draginfo.event.id,
       "groupId": draginfo.event.groupId,
@@ -149,23 +111,74 @@ export default class Calendar extends React.Component {
       "spaceid": draginfo.event.extendedProps.spaceid
     }
 
-    axios.patch(`gadget/calendar/1`,data,{
+    axios.patch(`/gadget/calendar/1`,data,{
       headers:{'contentType':`application/json;charset=utf-8`}
     })
     .then(response => {
-      let resdata = [...response.data];
-      return this.setState({ data: resdata })
+      setData(response.data);
     })
-    .catch(error => this.setState({ error }))
-    
-   }
-
-  handleEvents = (events) => {
-    this.setState({
-      currentEvents: events
-    })
+    .catch(error => setError(error));
   }
 
+  function handleEvents(events) {
+    setCurrentEvents(events);
+  }
+
+  function handleCloseModal() {
+    setShowModal(false);
+  }
+
+    return (
+      <>
+      <div className='demo-app'>
+        <div className='demo-app-main'>
+          <FullCalendar
+            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+            headerToolbar={{
+              left: 'prev,next today',
+              center: 'title',
+              right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            }}
+            events={data}
+            initialView='dayGridMonth'
+            editable={true}
+            selectable={true}
+            selectMirror={true}
+            dayMaxEvents={true}
+            weekends={weekendsVisible}
+            initialEvents={data} // alternatively, use the `events` setting to fetch from a feed
+            select={handleDateSelect}
+            eventContent={renderEventContent} // custom render function
+            eventClick={handleEventClick}
+            eventsSet={handleEvents} // called after events are initialized/added/changed/removed
+            eventDrop={changeEventTime}
+            /* you can update a remote database when these fire:
+            eventAdd={function(){}}
+            eventChange={function(){}}
+            eventRemove={function(){}}
+            */
+          />
+        </div>
+      </div>
+      
+        {/* <Modal  show={showModal} onHide={handleCloseModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>{modalTitle}</Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body>
+            <p>시작: {content}</p>
+            <p>시작: {modalStart}</p>
+            <p>끝: {modalEnd}</p>
+          </Modal.Body>
+
+          <Modal.Footer>
+            <Button variant="secondary">Close</Button>
+            <Button variant="primary">Save changes</Button>
+          </Modal.Footer>
+        </Modal> */}
+      </>
+    );
 }
 
 //데이터 시간 변경
@@ -176,3 +189,5 @@ function renderEventContent(eventInfo) {
     </>
   )
 }
+
+export default Calendar;
