@@ -7,7 +7,11 @@ import Modal from 'react-bootstrap/Modal';
 function BoardDetail(props){
     let {spaceid} = useParams();
     let {boardid} = useParams();
+
+    const actionurl = `/gadget/board/delete/${boardid}`;
+
     const [page, setPage] = useState([]);
+<<<<<<< Updated upstream
     const [reply, setReply] = useState([]);
     const [a, setA] = useState(0);
     const [text, setText] = useState('');
@@ -27,21 +31,30 @@ function BoardDetail(props){
     });
 
     let navigate = useNavigate();
+=======
+    let navigate = useNavigate();
+    console.log(boardid);
+>>>>>>> Stashed changes
     useEffect(() => {
         axios.get(`/gadget/board/${spaceid}/detail/${boardid}`)
         .then((res) => {
           return setPage(res.data);
         });
+<<<<<<< Updated upstream
         axios.get(`/gadget/board/reply/${boardid}`)
         .then((res)=>{
           return setReply(res.data);
         });
 
       }, [a]);
+=======
+      }, []);
+>>>>>>> Stashed changes
       
     return (
     <div className="row">
       <div className="col-12">
+<<<<<<< Updated upstream
         <div className="card bg-light">
         <div className="card-header">
           <button onClick={()=>{navigate(`/board/${spaceid}/list/${page.bcodeid}`)}} className='btn btn-outline-dark'>뒤로가기</button>
@@ -131,6 +144,22 @@ function BoardDetail(props){
           })}
         </div>
       
+=======
+        <button onClick={()=>{navigate(-1)}} className='btn btn-outline-dark'>뒤로가기</button>
+        <h2>{page.title}</h2>
+        <br/>
+        <b>작성자: {page.writer}({page.userid})</b><br/>
+        <i>작성일: {page.wdate}</i><br/>
+        <p>수정일자: {page.udate}</p>
+        <hr/>
+        <div dangerouslySetInnerHTML={{__html:page.content}}></div>
+        <hr/>
+        <button>수정하기</button>
+        <button onClick={()=>{
+          axios.delete(actionurl)
+          .then(navigate(`/gadget/board/${spaceid}/list/${page.bcodeid}`));
+        }}>삭제하기</button>
+>>>>>>> Stashed changes
       </div>
     </div>
     )

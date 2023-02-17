@@ -145,3 +145,4 @@ export const BoardWrite = (props) => {
 }
 
 export default BoardWrite;
+        "processData" : false,

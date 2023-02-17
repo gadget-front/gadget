@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from "axios";
 import { useNavigate, useParams } from 'react-router-dom';
 
+<<<<<<< Updated upstream
 export const Board = () => {
   const [pageNum, setPageNum] = useState(1);
   const { spaceid, bcodeid } = useParams();
@@ -23,9 +24,20 @@ export const Board = () => {
   //게시판 리스트 출력
   useEffect(() => {
     axios.get(`/gadget/board/${spaceid}/list/${bcodeid}?pageNum=${pageNum}`)
+=======
+export const Board = (props) => {
+  let {spaceid} = useParams();
+  let {bcodeid} = useParams();
+  const [list, setList] = useState([]);
+  let navigate = useNavigate();
+
+  useEffect(() => {
+    axios.get(`/gadget/board/${spaceid}/list/${bcodeid}`)
+>>>>>>> Stashed changes
     .then((res) => {
       setList([...res.data]);
     });
+<<<<<<< Updated upstream
   },[bcodeid,pageNum]);
 
   //총 게시물 수 및 페이징 처리
@@ -56,10 +68,24 @@ export const Board = () => {
           <div className='card-body'onClick={()=>{navigate(`/board/1/detail/${element.boardid}`)}}>
             <h3 className='card-title'>{element.title} <span className='badge badge-secondary'>{element.repnum}</span></h3>
             <div className='text-right'><p>{element.writer}({element.wdate}) </p></div>
+=======
+  },[bcodeid]);
+  
+  return(<div className='row'>
+    <div className='col-12'>
+    <button className='btn btn-outline-warning' onClick={()=>{navigate(`/gadget/board/${spaceid}/write/${bcodeid}`)}}>글쓰기</button>
+    {list.map((element, index) => {
+      return(
+        <div className='card' key={index} >
+          <div className='card-body'onClick={()=>{navigate(`/gadget/board/1/detail/${element.boardid}`)}}>
+            <h3 className='card-title'>{element.title}</h3>
+            <div className=''><p>{element.writer}({element.wdate}) <b>{element.repnum}</b></p></div>
+>>>>>>> Stashed changes
           </div>
         </div>
       );
     })}
+<<<<<<< Updated upstream
     총 게시물 수: {page}
     <br/>
       <div className='text-right'>
@@ -78,6 +104,13 @@ export const Board = () => {
         </div>
       </div>
     </div>
+=======
+      
+        
+      
+    </div>
+    
+>>>>>>> Stashed changes
   </div>);
 };
 
