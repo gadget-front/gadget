@@ -5,11 +5,13 @@ import { Route, Routes } from 'react-router-dom';
 import BoardWrite from './BoardWrite';
 
 import './Category.css';
-import MakeTodoContent from './MakeTodoContent';
 import { NoChice } from './NoChice';
-import TodoDetail from './TodoDetail';
-import TodoUpdate from './TodoUpdate';
 
+const Group = lazy(() => import('./Group'));
+const GroupMake = lazy(() => import(('./GroupMake')));
+const MakeTodoContent = lazy(() => import('./MakeTodoContent'));
+const TodoDetail = lazy(() => import('./TodoDetail'));
+const TodoUpdate = lazy(() => import('./TodoUpdate'));
 const Board = lazy(() => import('./Board'));
 const Calender = lazy(() => import('./Calender'));
 const BoardDetail = lazy(()=> import('./BoardDetail'));
@@ -21,7 +23,7 @@ export const Category = () => {
   return (
     <div className='catagory-area'>
         <Suspense fallback={<div>loading....</div>}>
-            <Routes>          
+            <Routes>
                 <Route path='/todo-list' element={<TodoList />}/>
                 <Route path="/todoList/:contentId" element={<TodoDetail/>} />
                 <Route path="/makeTodo/:state" element={<MakeTodoContent/>} />
@@ -32,7 +34,9 @@ export const Category = () => {
                 <Route path='/chatting' element={<Chatting />} />
                 <Route path='/calender/:spaceid' element={<Calender />} />
                 <Route path='/todo-update/:contentId' element={<TodoUpdate />} />
-                <Route path='*' element={<NoChice />} />
+                <Route path='/group' element={<Group/>} /> 
+                <Route path='/groupMake' element={<GroupMake/>}/>
+                <Route path='*' element={<NoChice/>} />
             </Routes>
         </Suspense>
     </div>

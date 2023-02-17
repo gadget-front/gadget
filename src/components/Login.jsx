@@ -4,6 +4,7 @@ import Robot from '../icon/Robot.svg';
 import { GoogleLogin, googleLogout } from '@react-oauth/google';
 import jwt_decode from "jwt-decode";
 import { Navigate, useNavigate } from 'react-router-dom';
+import { login } from '../api/todosApi';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -14,13 +15,15 @@ const Login = () => {
       <img src={Robot} alt="이미지없음" />
       <GoogleLogin
           onSuccess={credentialResponse => {
-            console.log(credentialResponse.credential);
-            let decoded = jwt_decode(credentialResponse.credential);
-            console.log(decoded);
-            sessionStorage.setItem("Authorization", decoded.email);
-            sessionStorage.setItem("name", decoded.name);
-            sessionStorage.setItem("picture", decoded.picture);
-            navigate("/");
+            login(credentialResponse.credential).then((info) => {
+              sessionStorage.setItem("email", info.data.email);
+              sessionStorage.setItem("name", info.data.username);
+              sessionStorage.setItem("picture", info.data.imgurl);
+              sessionStorage.setItem("userid", info.data.userid);
+
+              navigate("/group");
+            })
+            
           }}
           onError={() => {
             console.log('Login Failed');
