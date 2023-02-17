@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { getTodoContent, updateTodoContent } from '../api/todosApi';
 import BackArrow from '../icon/BackArrow.svg';
 import "./MakeTodoContent.css";
+import "./TodoUpdate.css";
 import StartDate from '../icon/StartDate.svg';
 import EndDate from '../icon/EndDate.svg';
 import Cancel from '../icon/Cancel.svg';
@@ -19,6 +20,8 @@ const TodoUpdate = () => {
   const [modalShow, setModalShow] = useState(false);
   // const modalShow = useRef(false);
   const todoInfo = useRef([]);
+  const [title, setTitle] = useState(null);
+  const [content, setContent] = useState(null);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   // const startDate = useRef(null);
@@ -55,8 +58,12 @@ const TodoUpdate = () => {
       // setStateName(data?.data?.statename);
       // startDate.current = data?.data?.startdate;
       // endDate.current = data?.data?.enddate;
-      todoInfo.current[0] = data?.data?.title;
-      todoInfo.current[1] = data?.data?.content;
+
+      // todoInfo.current[0] = data?.data?.title;
+      // todoInfo.current[1] = data?.data?.content;
+
+      setTitle(data?.data?.content);
+      setContent(data?.data?.title);
 
      } catch (error) {
         console.log(error);
@@ -92,7 +99,9 @@ const TodoUpdate = () => {
     // todoInfo.current[0].value="";
     // todoInfo.current[1].value="";
     // navigate(-1);
-    updateMutation.mutate({ title : todoInfo?.current[0]?.value, content : todoInfo?.current[1]?.value, startdate : startDate, enddate : endDate,  spaceid : 1, statename : stateName, contentid : todo.contentId})
+
+    //updateMutation.mutate({ title : todoInfo?.current[0]?.value, content : todoInfo?.current[1]?.value, startdate : startDate, enddate : endDate,  spaceid : 1, statename : stateName, contentid : todo.contentId})
+    updateMutation.mutate({ title : title, content : content, startdate : startDate, enddate : endDate,  spaceid : 1, statename : stateName, contentid : todo.contentId})
   }
   
    if (loading) return <div>로딩중..</div>; 
@@ -152,9 +161,9 @@ const TodoUpdate = () => {
   return (<>
    <div className="todo-container">
               <div><img src={BackArrow} alt="이미지없음" onClick={goBack}/></div>
-              <h3>{stateName}</h3>
+              {/* <h3>{stateName}</h3> */}
               {!data &&
-                <select onChange={onChangeHanlder} value={stateName}>
+                <select className="select-status" onChange={onChangeHanlder} value={stateName}>
                   {!data && Options.map((item, index)=>(
                     <option key={item.key} 
                             // value={item.key}
@@ -163,10 +172,13 @@ const TodoUpdate = () => {
                 </select>
               }
               <input  type="text" 
-                      ref={el => (todoInfo.current[0] = el)} 
+                      // ref={el => (todoInfo.current[0] = el)} 
+                      onChange = { (e) => setTitle(e.target.value) }
                       // placeholder="제목"
                       className="content"
-                      defaultValue={todoInfo.current[0] || ""}/>
+                      // defaultValue={todoInfo.current[0] || ""}
+                      defaultValue={title || ""}
+                      />
               { modalShow && 
               <div className="calendar">
                   <div className="cancel" onClick={closeModal}><img src={Cancel} alt="이미지 없음"/></div>
@@ -201,9 +213,11 @@ const TodoUpdate = () => {
                   />
                 </label>
                 <textarea className="content"
-                      ref={el => (todoInfo.current[1] = el)}
+                      // ref={el => (todoInfo.current[1] = el)}
+                      onChange = { (e) => setContent(e.target.value) }
                       // placeholder="내용" 
-                      defaultValue={todoInfo.current[1] || ""}
+                      // defaultValue={todoInfo.current[1] || ""}
+                      defaultValue={content || ""}
                       rows="10"/>
               <button onClick={todoInfoUpdate} className="submit-btn">제출하기</button>
             </div>

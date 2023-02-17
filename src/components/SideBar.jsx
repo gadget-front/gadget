@@ -36,7 +36,7 @@ const SideBar = () => {
         <h3>가제트</h3>
       </div>
       <div className="group-side-container">
-        <h3 className="group-number">그룹1</h3>
+        <NavLink to={"/group"} style={nonActiveStyle}><h3 className="group-number">그룹1</h3></NavLink>
         <ul className="side-menu">
           {/* <li>
             <Link to="/todo-list">할일</Link>
