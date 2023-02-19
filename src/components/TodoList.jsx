@@ -5,6 +5,10 @@ import { useNavigate } from "react-router-dom";
 import { getTodos, addTodo, updateTodo, deleteTodo, getOrders, updateOrder } from "../api/todosApi";
 import PlusBtn from "../icon/PlusBtn.svg";
 import "./TodoList.css";
+import moment from 'moment';
+import 'moment/locale/ko';
+import StartDate from '../icon/StartDateMin.svg';
+import EedDate from '../icon/EndDateMin.svg';
 
 const  TodoList = () => {
  
@@ -185,23 +189,23 @@ const  TodoList = () => {
 
   const [columns, setColumns] = useState(taskStatus || {});
 
-  const [title, setTitle] = useState("");
-  const statename = useRef();
+  // const [title, setTitle] = useState("");
+  // const statename = useRef();
 
-  function handleChange(e) {
-    console.log(e.target);
-    // setTitle(e);
-  }
+  // function handleChange(e) {
+  //   console.log(e.target);
+  //   // setTitle(e);
+  // }
 
 
-  function onSubmit(e) {
-    e.preventDefault();
-    console.log({
-      statename: e.target[0].value,
-      title: title,
-    });
-    setTitle("");
-  }
+  // function onSubmit(e) {
+  //   e.preventDefault();
+  //   console.log({
+  //     statename: e.target[0].value,
+  //     title: title,
+  //   });
+  //   setTitle("");
+  // }
 
 
   // if(isSuccess) {
@@ -246,9 +250,10 @@ const  TodoList = () => {
   if (isLoading) { return <h2>Loading...</h2> } 
   if (isError) { return <h2>{error.message}</h2> }
 
-  const detailPage = function (event) {
-    console.log(`이벤트 발생 ${event.target.childNodes[0].data}`);
-    navigate(`/todoList/${event.target.childNodes[0].data}`);
+  const detailPage = function (contentid) {
+    // console.log(`이벤트 발생 ${event.target.childNodes[0].data}`);
+    // navigate(`/todoList/${event.target.childNodes[0].data}`);
+    navigate(`/todoList/${contentid}`);
   }
 
   const addTodo = function(state) {
@@ -256,7 +261,7 @@ const  TodoList = () => {
   }
 
   return (
-    <div>
+    <div className="todo">
       <h1 style={{ textAlign: "center" }}>할 일</h1>
       <div
         style={{ display: "flex", justifyContent: "center", height: "100%" }}
@@ -292,11 +297,12 @@ const  TodoList = () => {
                           ref={provided.innerRef}
                           style={{
                             background: snapshot.isDraggingOver
-                              ? "lightblue"
-                              : "lightgrey",
+                           //   ? "lightblue"
+                              ? "#E3F2FD"
+                              : "rgba(217, 217, 217, 0.24)",
                             padding: 4,
                             width: 250,
-                            minHeight: 500
+                            minHeight: 500,
                           }}
                         >
                           {column.items.map((item, index) => {
@@ -309,7 +315,7 @@ const  TodoList = () => {
                                 {(provided, snapshot) => {
                                   return (
                                     <div
-                                      onDoubleClick={detailPage}
+                                      onDoubleClick={() => detailPage(item.contentid)}
                                       ref={provided.innerRef}
                                       {...provided.draggableProps}
                                       {...provided.dragHandleProps}
@@ -318,17 +324,34 @@ const  TodoList = () => {
                                         padding: 16,
                                         margin: "0 0 8px 0",
                                         minHeight: "50px",
+                                        height: "11.688rem",
                                         backgroundColor: snapshot.isDragging
-                                          ? "#263B4A"
-                                          : "#456C86",
-                                        color: "white",
+                                          //? "#263B4A"
+                                          ? "#b3d7fa"
+                                          : "#fff",
+                                        // color: "white",
+                                        borderRadius: "5px",
+                                        border: "solid 1px #d9d9d9",
+                                        overflow: "auto",
                                         ...provided.draggableProps.style
                                       }}
+                                      className="todo-list"
                                     >
-                                      {item.contentid} <br/>
+                                      <div className="todo-ago">
+                                        <p>{item.contentid}</p> 
+                                        <p>{moment(item.wdate, "YYYY-MM-DD HH:mm:ss").fromNow()}</p>
+                                      </div>
+                                      <h3 className="todo-title">{item.title}</h3>
                                       {item.content} <br/>
-                                      {item.startdate} <br/>
-                                      {item.enddate}
+                                      <div className="todo-date">
+                                        <img src={StartDate} alt="이미지 없음"/>
+                                        <p>{new Date(item.startdate).toLocaleDateString("ko-KR", { year: "numeric", month: "long", day: "numeric", weekday: "long", timeZone: "UTC" })}</p>
+                                      </div>
+                                      <div className="todo-date">
+                                         <img src={EedDate} alt="이미지 없음"/>
+                                         {new Date(item.enddate).toLocaleDateString("ko-KR", { year: "numeric", month: "long", day: "numeric", weekday: "long", timeZone: "UTC" })}
+                                      </div>
+
                                     </div>
                                   );
                                 }}

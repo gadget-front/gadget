@@ -13,9 +13,10 @@ import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 
 const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(document.getElementById('root'));
-// const token = sessionStorage.getItem("Authorization");
 
-// console.log("token :" + token);
+  // document.cookie = "safeCookie1=foo; SameSite=Lax"; 
+  // document.cookie = "safeCookie2=foo";  
+  // document.cookie = "crossCookie=bar; SameSite=None; Secure";
 
 root.render(
   // <React.StrictMode>

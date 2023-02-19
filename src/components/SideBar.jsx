@@ -24,7 +24,6 @@ const SideBar = () => {
   useEffect(() => {
     axios.get(`/gadget/workspace/${spaceid}/side`)
     .then((res) => {
-      console.log(res.data);
       return setSide(res.data);
     });
   }, []);
@@ -36,7 +35,7 @@ const SideBar = () => {
         <h3>가제트</h3>
       </div>
       <div className="group-side-container">
-        <h3 className="group-number">그룹1</h3>
+        <NavLink to={"/group"} style={nonActiveStyle}><h3 className="group-number">그룹1</h3></NavLink>
         <ul className="side-menu">
           {/* <li>
             <Link to="/todo-list">할일</Link>
@@ -57,7 +56,7 @@ const SideBar = () => {
             side.map((element, index) => {
               return(
                 <li key={index}>
-                  <NavLink to={`/gadget/board/1/list/${element.bcodeid}`} style={({isActive}) => (isActive ? activeStyle : nonActiveStyle)}>{element.bcodename}</NavLink>
+                  <NavLink to={`/board/1/list/${element.bcodeid}`} style={({isActive}) => (isActive ? activeStyle : nonActiveStyle)}>{element.bcodename}</NavLink>
                 </li>
               );
             })
@@ -66,7 +65,7 @@ const SideBar = () => {
              <NavLink to={"/chatting"} style={({isActive}) => (isActive ? activeStyle : nonActiveStyle)}>채팅</NavLink>
           </li>
           <li>
-             <NavLink to={"/calender"} style={({isActive}) => (isActive ? activeStyle : nonActiveStyle)}>캘린더</NavLink>
+             <NavLink to={`/calender/${spaceid}`} style={({isActive}) => (isActive ? activeStyle : nonActiveStyle)}>캘린더</NavLink>
           </li>
         </ul>
       </div>

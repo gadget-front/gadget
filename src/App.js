@@ -6,6 +6,7 @@ import { Category } from './components/Category';
 import './components/Common.css';
 
 function App() {
+
   return (
     <div className='main-container'>
       <SideBar/>

@@ -10,6 +10,11 @@ export const getTodos = async () => {
     return response.data;
 }
 
+export const getUsers = async () => {
+    const response = await todosApi.get("/gadget/users/search")
+    return response.data;
+}
+
 export const addTodo = async (todo) => {
     return await todosApi.post("/gadget/todos", todo)
 }
@@ -47,6 +52,19 @@ export const getTodoContent = async ({ queryKey }) => {
 export const updateTodoContent = async ({title, content, startdate, enddate, spaceid, statename, contentid}) => {
     console.log(title, content, startdate, enddate, spaceid, statename, contentid);
     return await todosApi.patch(`/gadget/todos/todoContent`, { title : title, content : content, startdate : startdate, enddate : enddate,  spaceid : spaceid, statename : statename, contentid : contentid})
+}
+
+export const login = async (token) => {
+    return await todosApi.post(`gadget/user/googleLogin`, { token : token });
+}
+
+export const createWorkSpace = async ({userid, spacename}) => {
+    return await todosApi.post(`gadget/workspace/group`, { userid : userid, spacename : spacename} );
+}
+
+export const selectWorkSpace = async ({queryKey}) => {
+    const userid = queryKey[1]
+    return await todosApi.get(`/gadget/workspace/groupList/${userid}`);
 }
 
 export default todosApi 

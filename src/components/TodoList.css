@@ -9,3 +9,38 @@
 .plus-btn{
   padding: 0 calc((100% - 45px)/2);
 }
+
+.todo {
+  overflow: auto;
+}
+
+.todo-title {
+  font-size: 1.2rem;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+}
+
+.todo-date {
+  display: flex;
+  gap : .5rem;
+  color: #8e8e8e;
+  font-size: .9rem;
+  height: .9rem;
+  align-items: center;
+}
+
+.todo-ago {
+  display: flex;
+  color: #8e8e8e;
+  font-size: .9rem;
+  height: .9rem;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.todo-list {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
