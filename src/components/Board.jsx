@@ -48,8 +48,9 @@ export const Board = () => {
   return(<div className='row'>
     <div className='col-12'>
     <div className='text-right'>
-      <button className='btn btn-outline-warning' onClick={()=>{navigate(`/board/${spaceid}/write/${bcodeid}`)}}>글쓰기</button>
+      <button className='btn btn-warning' onClick={()=>{navigate(`/board/${spaceid}/write/${bcodeid}`)}}>글쓰기</button>
     </div>
+    <br/>
     {list.map((element, index) => {
       return(
         <div className='card' key={index} >

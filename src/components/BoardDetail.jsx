@@ -44,7 +44,7 @@ function BoardDetail(props){
       <div className="col-12">
         <div className="card bg-light">
         <div className="card-header">
-          <button onClick={()=>{navigate(`/board/${spaceid}/list/${page.bcodeid}`)}} className='btn btn-outline-dark'>뒤로가기</button>
+          <button onClick={()=>{navigate(`/board/${spaceid}/list/${page.bcodeid}`)}} className='btn btn-dark'>뒤로가기</button>
         </div>
         <div className="card-body">
         <h5 className="card-title">{page.title}</h5>
@@ -59,8 +59,8 @@ function BoardDetail(props){
         <div className="text-right">
           <button onClick={()=>{
             navigate(`/board/${spaceid}/modify/${boardid}`)
-          }} className="btn btn-outline-warning">수정하기</button>
-          <button onClick={handleShow} className="btn btn-outline-danger">삭제하기</button>
+          }} className="btn btn-warning">수정하기</button>{' '}
+          <button onClick={handleShow} className="btn btn-danger">삭제하기</button>
           <Modal show={show} onHide={handleClose}>
             <Modal.Header>
               <Modal.Title>삭제</Modal.Title>
@@ -70,6 +70,7 @@ function BoardDetail(props){
               <Button variant="secondary" onClick={handleClose}>
                 뒤로가기
               </Button>
+              {' '}
               <Button variant="primary" onClick={()=>{
                 axios.delete(`/gadget/board/${boardid}`)
                 .then(navigate(`/board/${spaceid}/list/${page.bcodeid}`));
@@ -94,7 +95,7 @@ function BoardDetail(props){
                     }}></textarea>
             </div>
             <div className="text-right">
-              <button className="btn btn-outline-info" onClick={()=>{
+              <button className="btn btn-info" onClick={()=>{
                 console.log(repdata);
                 axios.post('/gadget/board/reply',repdata,{
                   headers:{'contentType':`application/json;charset=utf-8`}
@@ -119,7 +120,7 @@ function BoardDetail(props){
               </div>
               <div className="card-body"><div className="card-text"></div>{element.content}</div>
               <div className="card-footer text-right">작성일자: {element.wdate} &nbsp;&nbsp;&nbsp;
-                <button className="btn btn-outline-danger" onClick={()=>{
+                <button className="btn btn-danger" onClick={()=>{
                   axios.delete(`/gadget/board/reply/${element.replyid}`)
                   .then(response => {
                     setA(a+1);

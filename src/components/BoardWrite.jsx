@@ -133,7 +133,7 @@ export const BoardWrite = (props) => {
                 />
             </div>
     
-            <button className="btn btn-outline-info" disabled={disabled} onClick={()=>{
+            <button className="btn btn-info" disabled={disabled} onClick={()=>{
                 return handleSubmit;
             }}>글쓰기 완료</button>
             </form>

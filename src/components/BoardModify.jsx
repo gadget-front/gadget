@@ -140,7 +140,7 @@ export const BoardModify = () => {
                 />
             </div>
     
-            <button className="btn btn-outline-info" disabled={disabled} onClick={()=>{
+            <button className="btn btn-info" disabled={disabled} onClick={()=>{
                 return handleSubmit;
             }}>수정 완료</button>
             </form>
