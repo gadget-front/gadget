@@ -9,16 +9,19 @@ import moment from 'moment';
 import 'moment/locale/ko';
 import StartDate from '../icon/StartDateMin.svg';
 import EedDate from '../icon/EndDateMin.svg';
+import { useSelector } from 'react-redux';
 
 const  TodoList = () => {
  
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const spaceid = useSelector(state => state.space.id);
 
   const onDragEnd = (result, columns, setColumns) => {
     if (!result.destination) return;
     const { source, destination } = result;
   
+    console.log(`source.droppableId : ${source.droppableId}, destination.droppableId : ${destination.droppableId}`);
     if (source.droppableId !== destination.droppableId) {
       const sourceColumn = columns[source.droppableId];
       const destColumn = columns[destination.droppableId];
@@ -55,28 +58,46 @@ const  TodoList = () => {
         }
       });
 
-    console.log(destColumn.name);
-    console.log(sourceColumn.items[source.index].contentid);
+    // console.log(destColumn.name);
+    // console.log(sourceColumn.items[source.index].contentid);
     
     let statename = destColumn.name;
     const contentid = sourceColumn.items[source.index].contentid;
-    updateTodoMutation.mutate({statename, contentid});
+    updateTodoMutation.mutate({spaceid, statename, contentid});
 
-    const spaceid = 1;
     statename = sourceColumn.name;
     let stateindex = sourceItems.map(item => item.contentid);
 
+    console.log(`sourceColumn.name : ${sourceColumn.name}, stateindex: ${stateindex}`);
+    
     updateOrderMutation.mutate({spaceid, statename, stateindex});
 
     statename = destColumn.name;
     stateindex = destItems.map(item => item.contentid);
     updateOrderMutation.mutate({spaceid, statename, stateindex});
+
+    console.log(`destColumn.name : ${destColumn.name}, stateindex: ${stateindex}`);
       
     } else {
       const column = columns[source.droppableId];
-      const copiedItems = [...column.items];
+      let copiedItems = [...column.items];
       const [removed] = copiedItems.splice(source.index, 1);
+      const destColumn = columns[destination.droppableId];
+      const destItems = [...destColumn.items];
+
+      // console.log(`column : ${JSON.stringify(column)}`);
+      // console.log(`copiedItems : ${JSON.stringify(copiedItems)}`);
+      // console.log(`removed : ${JSON.stringify(removed)}`);
+      // console.log(`destColumn : ${JSON.stringify(destColumn)}`);
+      // console.log(`destItems : ${JSON.stringify(destItems)}`);
+
+      // copiedItems.splice(destination.index, 0, removed);
+      console.log(`copiedItems : ${JSON.stringify(copiedItems)}`);
+      console.log(`destination.index : ${destination.index}`);
+      console.log(`removed : ${JSON.stringify(removed)}`);
       copiedItems.splice(destination.index, 0, removed);
+      console.log(copiedItems);
+
       setColumns({
         ...columns,
         [source.droppableId]: {
@@ -84,27 +105,37 @@ const  TodoList = () => {
           items: copiedItems
         }
       });
+      console.log(columns);
+
+      let statename = destColumn.name;
+      let stateindex = copiedItems.map(item => item.contentid);
+
+      console.log(`같은 컬럼 destColumn.name : ${destColumn.name}, stateindex: ${stateindex}`);
+      updateOrderMutation.mutate({spaceid, statename, stateindex});
+
     }
   };
 
-  // const {
-  //   isSuccess : orderIsSuccess,
-  //   isLoading : orderIsLoaing,
-  //   isError : orderIsError,
-  //   error : orderError,
-  //   data : orderData, 
-  //   } = useQuery(['order', 1], getOrders,
-  //   {
-  //     // onSuccess: (orderData) => {
-  //     //   console.log('firstQueryData', orderData[0].stateindex.split(","));
-  //     //   let test =orderData[0].stateindex.split(",");
-  //     //   console.log( typeof parseInt(test.toString()) );
-  //     // },
-  //     select : (orderData) => {
-  //       return orderData.map(order => order.stateindex.split(","))
-  //     }
-  //   }
-  // )
+  const {
+    isSuccess : orderIsSuccess,
+    isLoading : orderIsLoaing,
+    isError : orderIsError,
+    error : orderError,
+    data : orderData, 
+    } = useQuery(['order', spaceid], getOrders,
+    {
+      // onSuccess: (orderData) => {
+      //   console.log('firstQueryData', orderData[0].stateindex.split(","));
+      //   let test =orderData[0].stateindex.split(",");
+      //   console.log( typeof parseInt(test.toString()) );
+      // },
+      select : orderData => orderData.split(",").filter(order => !!order)
+    }
+  )
+
+  // if(orderIsSuccess) {
+  //   console.log(orderData);
+  // }
 
   // if(orderIsSuccess) {
   //   console.log(typeof +orderData[0][0]);
@@ -116,78 +147,102 @@ const  TodoList = () => {
     isError,
     error,
     data, 
-    } = useQuery('todos', getTodos,
+    } = useQuery(['todos', spaceid], getTodos,
      {
-        // enabled : !!orderData,
-        onSuccess: data => data.map((item, _index) => {
-          return (
-            item.statename === "진행 예정" 
-            ? taskStatus.requested.items.push(item)
-            : item.statename === "진행 중"
-            ? taskStatus.toDo.items.push(item)
-            : item.statename === "완료"
-            ? taskStatus.inProgress.items.push(item)
-            : taskStatus.done.items.push(item)
-          )
-        }),
-        // select : (data) => {
-        //   const taskStatus = {
-        //     requested: {
-        //       name: "진행 예정",
-        //       items: []
-        //     },
-        //     toDo: {
-        //       name: "진행 중",
-        //       items: []
-        //     },
-        //     inProgress: {
-        //       name: "완료",
-        //       items: []
-        //     },
-        //     done: {
-        //       name: "삭제",
-        //       items: []
-        //     }
-        //   }
+        enabled : !!orderData,
+        select : data => {
+          console.log(data);
+          let origin = orderData.map(pos => data.find(el => el.contentid === +pos));
+          
+          console.log(origin);
+          let difference = data.filter(x => !origin.includes(x));
 
-        //   data.map((item, _index) => {
-        //     return (
-        //       item.statename === "진행 예정" 
-        //       ? taskStatus.requested.items.push(item)
-        //       : item.statename === "진행 중"
-        //       ? taskStatus.toDo.items.push(item)
-        //       : item.statename === "완료"
-        //       ? taskStatus.inProgress.items.push(item)
-        //       : taskStatus.done.items.push(item)
-        //     )
-        //   })
+          console.log(difference);
+          return [...origin, ...difference];
+        },
+
+        // onSuccess: data => data.map((item, _index) => {
+        //   // console.log(`item : ${JSON.stringify(item)}`);
+        //   return (
+        //     item?.statename === "진행 예정" 
+        //     ? taskStatus.requested.items.push(item)
+        //     : item?.statename === "진행 중"
+        //     ? taskStatus.toDo.items.push(item)
+        //     : item?.statename === "완료"
+        //     ? taskStatus.inProgress.items.push(item)
+        //     : taskStatus.done.items.push(item)
+        //   )
+        // }),
+        
+        onSuccess : (data) => {
+          console.log(data);
+
+          const taskStatus = {
+            requested: {
+              name: "진행 예정",
+              items: []
+            },
+            toDo: {
+              name: "진행 중",
+              items: []
+            },
+            inProgress: {
+              name: "완료",
+              items: []
+            },
+            done: {
+              name: "삭제",
+              items: []
+            }
+          }
+
+          data.map((item, _index) => {
+            return (
+              item.statename === "진행 예정" 
+              ? taskStatus.requested.items.push(item)
+              : item.statename === "진행 중"
+              ? taskStatus.toDo.items.push(item)
+              : item.statename === "완료"
+              ? taskStatus.inProgress.items.push(item)
+              : taskStatus.done.items.push(item)
+            )
+          })
  
-        //   return taskStatus;
+          return setColumns(taskStatus);
     
-        // }
-      }
+         }
+       }
     )
 
-    const taskStatus = {
-      requested: {
-        name: "진행 예정",
-        items: []
-      },
-      toDo: {
-        name: "진행 중",
-        items: []
-      },
-      inProgress: {
-        name: "완료",
-        items: []
-      },
-      done: {
-        name: "삭제",
-        items: []
-      }
-    };
+    // const taskStatus = {
+    //   requested: {
+    //     name: "진행 예정",
+    //     items: []
+    //   },
+    //   toDo: {
+    //     name: "진행 중",
+    //     items: []
+    //   },
+    //   inProgress: {
+    //     name: "완료",
+    //     items: []
+    //   },
+    //   done: {
+    //     name: "삭제",
+    //     items: []
+    //   }
+    // };
 
-  const [columns, setColumns] = useState(taskStatus || {});
+  const [columns, setColumns] = useState({});
+
+  // useEffect(() => {
+  //   // setColumns(taskStatus);
+  // },[taskStatus]);
+
+  // if(isSuccess) {
+  //   console.log(data);
+  //   setColumns(data);
+  // }
 
   // const [title, setTitle] = useState("");
   // const statename = useRef();
@@ -228,14 +283,14 @@ const  TodoList = () => {
   const updateTodoMutation = useMutation(updateTodo, {
       onSuccess: () => {
           // Invalidates cache and refetch 
-          queryClient.invalidateQueries("todos")
+          queryClient.invalidateQueries(["order", "todos"])
       }
   })
 
   const updateOrderMutation = useMutation(updateOrder, {
       onSuccess: () => {
           // Invalidates cache and refetch 
-          queryClient.invalidateQueries("todos")
+          queryClient.invalidateQueries(["order", "todos"]);
           console.log("updateOrder sucess!")
       }
   })
@@ -270,7 +325,7 @@ const  TodoList = () => {
           onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
         >
           {Object.entries(columns).map(([columnId, column], index) => {
-            console.log(columnId);
+            // console.log(columnId);
             return (
               <div
                 style={{

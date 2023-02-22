@@ -4,11 +4,14 @@ import { useNavigate } from 'react-router-dom';
 import { selectWorkSpace } from '../api/todosApi';
 import './Group.css';
 import MakeGroup from '../icon/MakeGroup.svg';
+import { useDispatch } from 'react-redux';
+import { chooseID, chooseName } from '../redux/slice/slice';
 
 const Group = () => {
 
   const navigate = useNavigate();
   const [workSpace, SetWorkSpace] = useState([]);
+  const dispatch = useDispatch();
 
   const {
     isSuccess,
@@ -30,6 +33,13 @@ const Group = () => {
   if(isLoading) {
     return <h3>loading...</h3>
   }
+
+  const enterWorkSpace = (space) => {
+    dispatch(chooseID(space.spaceid));
+    dispatch(chooseName(space.spacename));
+    navigate("/main");
+  }
+
   return (
       <>
           <div className="group-container">
@@ -40,7 +50,7 @@ const Group = () => {
               </div>
               {workSpace && 
                 workSpace?.map((space) => {
-                return <div key={space.spaceid} className="group-room" onClick={ e => console.log(e)}> <h3>{space.spacename}</h3> <h4>그룹 인원 : {space.count}</h4></div>
+                return <div key={space.spaceid} className="group-room" onClick={() => {enterWorkSpace(space)}}> <h3>{space.spacename}</h3> <h4>그룹 인원 : {space.count}</h4></div>
                 })
               }
             </div>

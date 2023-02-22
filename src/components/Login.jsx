@@ -16,6 +16,7 @@ const Login = () => {
       <GoogleLogin
           onSuccess={credentialResponse => {
             login(credentialResponse.credential).then((info) => {
+              console.log(`info : ${JSON.stringify(info)}`);
               sessionStorage.setItem("email", info.data.email);
               sessionStorage.setItem("name", info.data.username);
               sessionStorage.setItem("picture", info.data.imgurl);

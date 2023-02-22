@@ -5,6 +5,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 const SideBar = () => {
   const activeStyle = {
@@ -28,27 +29,23 @@ const SideBar = () => {
     });
   }, []);
 
+  const spaceName = useSelector(state => state.space.name);
+
+  // useEffect(() => {
+  //   console.log('spaceName : '+ spaceName);
+  // }, [spaceName]);
+
   return (
     <aside className="side-bar">
-      <div className="logo-container"> 
-        <img src={Robot} alt="이미지없음" />
-        <h3>가제트</h3>
-      </div>
+      <NavLink to={"/main"} style={nonActiveStyle}>
+        <div className="logo-container"> 
+          <img src={Robot} alt="이미지없음" />
+          <h3>가제트</h3>
+        </div>
+      </NavLink>
       <div className="group-side-container">
-        <NavLink to={"/group"} style={nonActiveStyle}><h3 className="group-number">그룹1</h3></NavLink>
-        <ul className="side-menu">
-          {/* <li>
-            <Link to="/todo-list">할일</Link>
-          </li>
-          <li>
-            <Link to="/board">게시판</Link>
-          </li>
-          <li>
-             <Link to="/chatting">채팅</Link>
-          </li>
-          <li>
-             <Link to="/calender">캘린더</Link>
-          </li> */}
+        <NavLink to={"/group"} style={nonActiveStyle}><h3 className="group-number">{spaceName}</h3></NavLink>
+       { spaceName && <ul className="side-menu">
           <li>
             <NavLink to={"/todo-list"} style={({isActive}) => (isActive ? activeStyle : nonActiveStyle)}>할일</NavLink>
           </li>
@@ -67,7 +64,7 @@ const SideBar = () => {
           <li>
              <NavLink to={`/calender/${spaceid}`} style={({isActive}) => (isActive ? activeStyle : nonActiveStyle)}>캘린더</NavLink>
           </li>
-        </ul>
+        </ul>}
       </div>
     </aside>
   )

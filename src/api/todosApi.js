@@ -5,8 +5,9 @@ const todosApi = axios.create({
     // withCredentials: true // 쿠키 cors 통신 설정
 })
 
-export const getTodos = async () => {
-    const response = await todosApi.get("/gadget/todos/1")
+export const getTodos = async ({ queryKey }) => {
+    const spaceid = queryKey[1];
+    const response = await todosApi.get(`/gadget/todos/${spaceid}`)
     return response.data;
 }
 
@@ -19,8 +20,8 @@ export const addTodo = async (todo) => {
     return await todosApi.post("/gadget/todos", todo)
 }
 
-export const updateTodo = async ({statename, contentid}) => {
-    return await todosApi.patch(`/gadget/todos/move`, { spaceid : 1, statename : statename, contentid : contentid})
+export const updateTodo = async ({spaceid, statename, contentid}) => {
+    return await todosApi.patch(`/gadget/todos/move`, { spaceid : spaceid, statename : statename, contentid : contentid})
 }
 
 export const deleteTodo = async ({ id }) => {
@@ -36,7 +37,8 @@ export const getOrders = async ({ queryKey }) => {
 
 export const updateOrder = async ({spaceid, statename, stateindex}) => {
     console.log(spaceid, statename, stateindex);
-    return await todosApi.patch(`/gadget/todos/order`, { spaceid : 1, statename : statename, stateindex : stateindex.toString()})
+    return await todosApi.patch(`/gadget/todos/order`, { spaceid : spaceid, statename : statename, stateindex : stateindex.toString()})
+    // return await todosApi.patch(`/gadget/todos/order`, { spaceid : spaceid, statename : statename, stateindex : JSON.stringify(stateindex)})
 }
 
 export const createTodoContent = async ({title, content, startdate, enddate, spaceid, statename}) => {

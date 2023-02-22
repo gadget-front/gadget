@@ -5,7 +5,7 @@ import "react-summernote/dist/react-summernote.css";
 import "bootstrap/js/dist/modal";
 import "bootstrap/js/dist/dropdown";
 import "bootstrap/js/dist/tooltip";
-import "bootstrap/dist/css/bootstrap.css";
+import "./bootstrap/dist/css/bootstrap.css";
 import $ from 'jquery';
 import { useState } from "react";
 
@@ -145,4 +145,3 @@ export const BoardWrite = (props) => {
 }
 
 export default BoardWrite;
-        "processData" : false,

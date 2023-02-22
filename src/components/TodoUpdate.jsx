@@ -12,6 +12,7 @@ import { useQuery, useMutation} from "react-query";
 import moment from 'moment';
 import Calendar from 'react-calendar';
 import axios from "axios";
+import { useSelector } from 'react-redux';
 
 const TodoUpdate = () => {
   const todo = useParams();
@@ -28,6 +29,7 @@ const TodoUpdate = () => {
   // const endDate = useRef(null);
   const [loading, setLoading] = useState(false);
   const [stateName, setStateName] = useState("");
+  const spaceid = useSelector(state => state.space.id);
   // const {
   //         isSuccess,
   //         isLoading,
@@ -101,7 +103,7 @@ const TodoUpdate = () => {
     // navigate(-1);
 
     //updateMutation.mutate({ title : todoInfo?.current[0]?.value, content : todoInfo?.current[1]?.value, startdate : startDate, enddate : endDate,  spaceid : 1, statename : stateName, contentid : todo.contentId})
-    updateMutation.mutate({ title : title, content : content, startdate : startDate, enddate : endDate,  spaceid : 1, statename : stateName, contentid : todo.contentId})
+    updateMutation.mutate({ title : title, content : content, startdate : startDate, enddate : endDate,  spaceid : spaceid, statename : stateName, contentid : todo.contentId})
   }
   
    if (loading) return <div>로딩중..</div>; 

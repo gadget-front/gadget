@@ -12,6 +12,7 @@ import Cancel from '../icon/Cancel.svg';
 import { createTodoContent } from '../api/todosApi';
 import { useQuery, useMutation} from "react-query";
 import axios from "axios";
+import { useSelector } from 'react-redux';
 
 const MakeTodoContent = () => {
 
@@ -21,6 +22,7 @@ const MakeTodoContent = () => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [modalShow, setModalShow] = useState(false);
+  const spaceid = useSelector(state => state.space.id);
 
   const goBack = () => {
     navigate(-1);
@@ -49,7 +51,7 @@ const MakeTodoContent = () => {
     // todoInfo.current[0].value="";
     // todoInfo.current[1].value="";
     // navigate(-1);
-    createMutation.mutate({ title : todoInfo?.current[0]?.value, content : todoInfo?.current[1]?.value, startdate : startDate, enddate : endDate,  spaceid : 1, statename : params?.state})
+    createMutation.mutate({ title : todoInfo?.current[0]?.value, content : todoInfo?.current[1]?.value, startdate : startDate, enddate : endDate,  spaceid : spaceid, statename : params?.state})
   }
 
   const createMutation = useMutation(createTodoContent, {
