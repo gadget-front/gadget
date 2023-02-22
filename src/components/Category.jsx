@@ -5,7 +5,8 @@ import { Route, Routes } from 'react-router-dom';
 import BoardWrite from './BoardWrite';
 
 import './Category.css';
-import { NoChice } from './NoChice';
+import ErrorPage from './ErrorPage';
+import { MainPage } from './MainPage';
 
 const Group = lazy(() => import('./Group'));
 const GroupMake = lazy(() => import(('./GroupMake')));
@@ -36,7 +37,8 @@ export const Category = () => {
                 <Route path='/todo-update/:contentId' element={<TodoUpdate />} />
                 <Route path='/group' element={<Group/>} /> 
                 <Route path='/groupMake' element={<GroupMake/>}/>
-                <Route path='*' element={<NoChice/>} />
+                <Route path='/main' element={<MainPage/>} />
+                <Route path='*' element={<ErrorPage/>} />
             </Routes>
         </Suspense>
     </div>

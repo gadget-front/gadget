@@ -10,6 +10,10 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import Login from './components/Login';
 import PrivateRoute from './components/PrivateRouter';
 import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
+import { Provider } from 'react-redux';
+import store from './redux/store/store';
+import { PersistGate } from 'redux-persist/integration/react';
+import persistStore from 'redux-persist/es/persistStore';
 
 const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -18,20 +22,26 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
   // document.cookie = "safeCookie2=foo";  
   // document.cookie = "crossCookie=bar; SameSite=None; Secure";
 
+  let persistor = persistStore(store);
+
 root.render(
   // <React.StrictMode>
   <GoogleOAuthProvider clientId='500664645859-g132g5tgks2cvsvsph5q8rbuq0o8sivv.apps.googleusercontent.com'> 
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <Suspense fallback={<div>loading....</div>}>
-          <Routes>
-            <Route path='/login' element={<Login />}/>
-            {/* <Route path="/*" element={<PrivateRoute component={<App/>} authenticated={token}/>}/> */}
-            <Route path="/*" element={<PrivateRoute component={<App/>}/>}/>
-          </Routes>
-        </Suspense>
+      <Provider store={store}>
+       <PersistGate loading={null} persistor={persistor}>
+        <BrowserRouter>
+          <Suspense fallback={<div>loading....</div>}>
+            <Routes>
+              <Route path='/login' element={<Login />}/>
+              {/* <Route path="/*" element={<PrivateRoute component={<App/>} authenticated={token}/>}/> */}
+              <Route path="/*" element={<PrivateRoute component={<App/>}/>}/>
+            </Routes>
+          </Suspense>
         <ReactQueryDevtools initialIsOpen />
-      </BrowserRouter>   
+       </BrowserRouter>  
+      </PersistGate>
+    </Provider> 
     </QueryClientProvider>
   </GoogleOAuthProvider>
   // </React.StrictMode> 

@@ -8,11 +8,11 @@ import './components/Common.css';
 function App() {
 
   return (
-    <div className='main-container'>
-      <SideBar/>
-      <Header/>
-      <Category/>
-    </div>
+        <div className='main-container'>
+          <SideBar/>
+          <Header/>
+          <Category/>
+        </div>
   );
 }
 
