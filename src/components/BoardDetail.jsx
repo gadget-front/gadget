@@ -5,20 +5,39 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 function BoardDetail(props){
-    let {spaceid} = useParams();
-    let {boardid} = useParams();
+  let {spaceid} = useParams();
+  let {boardid} = useParams();
+  const [page, setPage] = useState([]);
+  const [reply, setReply] = useState([]);
+  const [a, setA] = useState(0);
+  const [text, setText] = useState('');
 
-    const actionurl = `/gadget/board/delete/${boardid}`;
+  const [show, setShow] = useState(false);
 
-    const [page, setPage] = useState([]);
-    let navigate = useNavigate();
-    console.log(boardid);
-    useEffect(() => {
-        axios.get(`/gadget/board/${spaceid}/detail/${boardid}`)
-        .then((res) => {
-          return setPage(res.data);
-        });
-      }, []);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  const [repdata, setRepdata] = useState({
+    'replyid':null,
+    'content':'',
+    'writer':'user001',
+    'wdate': null,
+    'boardid': boardid,
+    'userid': 'user001'
+  });
+
+  let navigate = useNavigate();
+  useEffect(() => {
+      axios.get(`/gadget/board/${spaceid}/detail/${boardid}`)
+      .then((res) => {
+        return setPage(res.data);
+      });
+      axios.get(`/gadget/board/reply/${boardid}`)
+      .then((res)=>{
+        return setReply(res.data);
+      });
+
+    }, [a]);
       
     return (
     <div className="row">
