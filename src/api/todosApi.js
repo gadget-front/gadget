@@ -41,9 +41,9 @@ export const updateOrder = async ({spaceid, statename, stateindex}) => {
     // return await todosApi.patch(`/gadget/todos/order`, { spaceid : spaceid, statename : statename, stateindex : JSON.stringify(stateindex)})
 }
 
-export const createTodoContent = async ({title, content, startdate, enddate, spaceid, statename}) => {
-    console.log(title, content, startdate, enddate, spaceid, statename);
-    return await todosApi.post(`/gadget/todos/todoContent`, { title : title, content : content, startdate : startdate, enddate : enddate,  spaceid : spaceid, statename : statename})
+export const createTodoContent = async ({title, content, startdate, enddate, spaceid, statename, userid}) => {
+    console.log(title, content, startdate, enddate, spaceid, statename, userid);
+    return await todosApi.post(`/gadget/todos/todoContent`, { title : title, content : content, startdate : startdate, enddate : enddate,  spaceid : spaceid, statename : statename, userid : userid})
 }
 
 export const getTodoContent = async ({ queryKey }) => {

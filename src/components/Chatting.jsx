@@ -6,7 +6,7 @@ const Chatting = () => {
   const userId = sessionStorage.getItem("userid");
   const spaceId = useSelector(state => state.space.id);
 
-  const url = `http://localhost:8090/gadget/chat/room?userid=${userId}&spaceid=${spaceId}`;
+  const url = `http://192.168.0.38:8090/gadget/chat/room?userid=${userId}&spaceid=${spaceId}`;
 
   return (
     <div className='card'>

@@ -21,7 +21,7 @@ const GroupMake = () => {
           .then((usersList) => {setUsers(usersList.data); console.log(users);});
     const fetchData = async () => {
       try {
-        const res = await axios.get("http://localhost:8080/gadget/user/search");
+        const res = await axios.get("/gadget/user/search");
         // setUsers(res.data);
         setUsers(res.data.filter(user => user.userid !== creator));
       } catch(e) {

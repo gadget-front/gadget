@@ -1,8 +1,12 @@
+/* @import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css); */
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   text-decoration : none;
+  /* font-family: 'Nanum Gothic', sans-serif; */
+  /* font-family: 'Nanum Gothic Coding', sans-serif; */
 }
 
 .todo-container {

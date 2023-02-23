@@ -18,7 +18,7 @@ export const Header = () => {
       console.log("logout 테스트");
       sessionStorage.clear();
       console.log(sessionStorage.getItem("Authorization"));
-      navigate("/login"); 
+      navigate("/startPage"); 
     }
 
   return (
