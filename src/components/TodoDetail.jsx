@@ -18,7 +18,7 @@ function TodoDetail() {
   const navigate = useNavigate();
 
   const goBack = () => {
-    navigate(-1);
+    navigate('/todo-list');
   };
 
   const {
@@ -54,9 +54,18 @@ function TodoDetail() {
 
   return (
     <div className="todo-container">
-    <div className="todo-detail-top"><img src={BackArrow} alt="이미지없음" onClick={goBack}/><p className='sub-text' onClick={todoUpdatePage}>수정</p></div>
+    <div className="todo-detail-top">
+      <img src={BackArrow} alt="이미지없음" onClick={goBack}/>
+      {(data.data.userid === sessionStorage.getItem("userid")) && <p className='sub-text' onClick={todoUpdatePage}>수정</p>}
+    </div>
     <h3>{params.state}</h3>
-    <p className='sub-text'>{ moment(data.data.wdate, "YYYY-MM-DD HH:mm:ss").fromNow() }</p> 
+    <div className='todo-detail-middle'>
+      <div className='profile-todo'>
+        <img className="profile" src={data.data.imgurl} alt="이미지 없음" />
+        <p>{data.data.username}</p>
+      </div>
+      <p className='sub-text'>{ moment(data.data.wdate, "YYYY-MM-DD HH:mm:ss").fromNow() }</p> 
+    </div>
     {/* <input  type="text" 
             value={data.data.title} 
             disabled

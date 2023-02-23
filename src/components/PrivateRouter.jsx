@@ -9,7 +9,7 @@ const PrivateRoute = ({component:Component}) => {
     console.log(email);
     return(
         // authenticated? Component : <Navigate to="/login" {...alert("로그인이 필요합니다.")}></Navigate>
-        email? Component : <Navigate to="/login"/>
+        email? Component : <Navigate to="/startPage"/>
     )
 }
 
