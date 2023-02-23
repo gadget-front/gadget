@@ -57,8 +57,8 @@ export const Board = () => {
     {list.map((element, index) => {
       return(
         <div className='card' key={index} >
-                    <div className='card-body'onClick={()=>{navigate(`/board/1/detail/${element.boardid}`)}}>
-            <h3 className='card-title'>{element.title} <span className='badge badge-secondary'>{element.repnum}</span></h3>
+          <div className='card-body'onClick={()=>{navigate(`/board/1/detail/${element.boardid}`)}}>
+            <h3 className='card-title'>{element.title}</h3> <b>댓글 수: {element.repnum}</b>
             <div className='text-right'><p>{element.writer}({element.wdate}) </p></div>
           </div>
         </div>
