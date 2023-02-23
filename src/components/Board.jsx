@@ -64,19 +64,21 @@ export const Board = () => {
       <button className='btn btn-warning' onClick={()=>{navigate(`/board/${spaceid}/write/${bcodeid}`)}}>글쓰기</button>
     </div>
     <br/>
-    {list.map((element, index) => {
-      return(
-        <>
-        <div className='card' key={index} >
-          <div className='card-body'onClick={()=>{navigate(`/board/${spaceid}/detail/${element.boardid}`)}}>
-            <h3 className='card-title'>{element.title}</h3> <b>댓글 수: {element.repnum}</b>
-            <div className='text-right'><p>{element.writer}({element.wdate}) </p></div>
-          </div>
-        </div>
-        <br/>
-        </>
-      );
-    })}
+    {list.length > 0 
+      ?(list.map((element, index) => {
+        return(
+          <>
+            <div className='card' key={index} >
+              <div className='card-body'onClick={()=>{navigate(`/board/${spaceid}/detail/${element.boardid}`)}}>
+                <h3 className='card-title'>{element.title}</h3> <b>댓글 수: {element.repnum}</b>
+                <div className='text-right'><p>{element.writer}({element.wdate}) </p></div>
+              </div>
+            </div>
+            <br/>
+          </>
+        );}))
+      :(<h3 className='text-center'><b>글이 없습니다.</b></h3>)
+    }
     총 게시물 수: {page}
     <br/>
     <br/>
