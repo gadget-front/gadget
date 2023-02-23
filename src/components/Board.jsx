@@ -24,7 +24,7 @@ export const Board = (props) => {
     {list.map((element, index) => {
       return(
         <div className='card' key={index} >
-          <div className='card-body'onClick={()=>{navigate(`/gadget/board/1/detail/${element.boardid}`)}}>
+          <div className='card-body'onClick={()=>{navigate(`/gadget/board/${spaceid}/detail/${element.boardid}`)}}>
             <h3 className='card-title'>{element.title}</h3>
             <div className=''><p>{element.writer}({element.wdate}) <b>{element.repnum}</b></p></div>
           </div>

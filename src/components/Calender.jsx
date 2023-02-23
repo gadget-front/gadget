@@ -35,6 +35,9 @@ function Calendar(){
   const showClose = () => setShow(false);
   const showOpen = () => setShow(true);
 
+  let loginuserid = sessionStorage.getItem("userid");
+  let username = sessionStorage.getItem("name");
+
   useEffect(()=>{
       axios.get(`/gadget/calendar/${spaceid}/list`)
       .then((response) => {
@@ -66,8 +69,8 @@ function Calendar(){
       "id": null,
       "groupId": null,
       "title": modalTitle,
-      "writer": "user001",
-      "userid": "user001",
+      "writer": username,
+      "userid": loginuserid,
       "content": content,
       "start": modalStart,
       "end": modalEnd,

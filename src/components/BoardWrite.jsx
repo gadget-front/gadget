@@ -9,14 +9,15 @@ import "./bootstrap/dist/css/bootstrap.css";
 import $ from 'jquery';
 import { useState } from "react";
 
-
 export const BoardWrite = (props) => {
+    let userid = sessionStorage.getItem("userid");
     let {spaceid} = useParams();
     let {bcodeid} = useParams();
     let navigate = useNavigate();    
     const [disabled, setDisabled] = useState(false);
     const [title, setTitle] = useState();
     const [content, setContent] = useState();
+    let username = sessionStorage.getItem("name");
 
     const actionurl = `/gadget/board/${spaceid}/detail`;
 
@@ -57,13 +58,13 @@ export const BoardWrite = (props) => {
             'boardid':null,
             'title': title,
             'content': content,/*note-editable*/
-            'writer': 'user001',/*닉네임*/
+            'writer': username,/*닉네임*/
             'wdate': null,
             'udate': null,
             'repnum': 0,
             'bcodeid': bcodeid,
             'spaceid': spaceid,
-            'userid': 'user001',/*아이디*/
+            'userid': userid,/*아이디*/
             'attachList':[]
           });
         event.preventDefault();
@@ -121,7 +122,6 @@ export const BoardWrite = (props) => {
             <div className="form-group">
                 <label>Title</label> 
                 <input className="form-control" name='title' onChange={(e) => {
-                    console.log(e.target.value);
                     setTitle(e.target.value)}}/>
             </div>  
             <div className="form-group">

@@ -11,6 +11,8 @@ function BoardDetail(props){
   const [reply, setReply] = useState([]);
   const [a, setA] = useState(0);
   const [text, setText] = useState('');
+  let userid = sessionStorage.getItem("userid");
+  let username = sessionStorage.getItem("name");
 
   const [show, setShow] = useState(false);
 
@@ -20,10 +22,10 @@ function BoardDetail(props){
   const [repdata, setRepdata] = useState({
     'replyid':null,
     'content':'',
-    'writer':'user001',
+    'writer':username,
     'wdate': null,
     'boardid': boardid,
-    'userid': 'user001'
+    'userid': userid
   });
 
   let navigate = useNavigate();

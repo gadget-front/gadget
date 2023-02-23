@@ -19,6 +19,7 @@ const BoardDetail = lazy(()=> import('./BoardDetail'));
 const BoardModify = lazy(()=>import('./BoardModify'));
 const Chatting = lazy(() => import('./Chatting'));
 const TodoList = lazy(() => import('./TodoList'));
+const BoardList = lazy(()=> import('./BoardList'));
 
 export const Category = () => {
   return (
@@ -32,6 +33,7 @@ export const Category = () => {
                 <Route path= '/board/:spaceid/detail/:boardid' element={<BoardDetail />} />
                 <Route path= '/board/:spaceid/modify/:boardid' element={<BoardModify />} />
                 <Route path='/board/:spaceid/write/:bcodeid' element={<BoardWrite />}/>
+                <Route path='/boardlist/:spaceid' element={<BoardList />}/>
                 <Route path='/chatting' element={<Chatting />} />
                 <Route path='/calender/:spaceid' element={<Calender />} />
                 <Route path='/todo-update/:contentId' element={<TodoUpdate />} />

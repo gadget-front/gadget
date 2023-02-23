@@ -20,7 +20,7 @@ const SideBar = () => {
     color: 'black'
   };
 
-  let spaceid = 1;
+  let spaceid = useSelector(state => state.space.id);
   const [side, setSide] = useState([]); 
   useEffect(() => {
     axios.get(`/gadget/workspace/${spaceid}/side`)
@@ -53,7 +53,7 @@ const SideBar = () => {
             side.map((element, index) => {
               return(
                 <li key={index}>
-                  <NavLink to={`/board/1/list/${element.bcodeid}`} style={({isActive}) => (isActive ? activeStyle : nonActiveStyle)}>{element.bcodename}</NavLink>
+                  <NavLink to={`/board/${spaceid}/list/${element.bcodeid}`} style={({isActive}) => (isActive ? activeStyle : nonActiveStyle)}>{element.bcodename}</NavLink>
                 </li>
               );
             })
@@ -63,6 +63,9 @@ const SideBar = () => {
           </li>
           <li>
              <NavLink to={`/calender/${spaceid}`} style={({isActive}) => (isActive ? activeStyle : nonActiveStyle)}>캘린더</NavLink>
+          </li>
+          <li>
+            <NavLink to={`/boardlist/${spaceid}`} style={({isActive}) => (isActive ? activeStyle : nonActiveStyle)}>게시판 추가</NavLink>
           </li>
         </ul>}
       </div>

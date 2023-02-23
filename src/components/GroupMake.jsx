@@ -17,8 +17,8 @@ const GroupMake = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // axios.get("http://localhost:8080/gadget/user/search")
-    //      .then((usersList) => {setUsers(usersList.data); console.log(users);});
+    axios.get("/gadget/user/search")
+          .then((usersList) => {setUsers(usersList.data); console.log(users);});
     const fetchData = async () => {
       try {
         const res = await axios.get("http://localhost:8080/gadget/user/search");
@@ -99,7 +99,7 @@ const GroupMake = () => {
             </ul>
           </div>
           <div className="group-btn">
-            <button onClick={submit}>왼료</button>
+            <button onClick={submit}>완료</button>
             <button onClick={() => navigate('/group')}>취소</button>
           </div>
         </div>
