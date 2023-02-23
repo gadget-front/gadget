@@ -139,7 +139,7 @@ export const BoardModify = () => {
                 onChange={onChange}
                 />
             </div>
-    
+            <br/>
             <button className="btn btn-info" disabled={disabled} onClick={()=>{
                 return handleSubmit;
             }}>수정 완료</button>

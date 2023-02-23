@@ -132,7 +132,7 @@ export const BoardWrite = (props) => {
                 onChange={onChange}
                 />
             </div>
-    
+            <br/>
             <button className="btn btn-info" disabled={disabled} onClick={()=>{
                 return handleSubmit;
             }}>글쓰기 완료</button>

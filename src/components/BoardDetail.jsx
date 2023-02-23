@@ -51,7 +51,7 @@ function BoardDetail(props){
         <div className="card-body">
         <h5 className="card-title">{page.title}</h5>
         <div className="text-right">
-          <small className="card-text">작성자: {page.writer}({page.userid})</small><br/>
+          <small className="card-text">작성자: {page.writer}</small><br/>
           <small className="card-text">작성일: {page.wdate}</small><br/>
           <small className="card-text">수정일자: {page.udate}</small>
         </div>
@@ -97,6 +97,7 @@ function BoardDetail(props){
                     }}></textarea>
             </div>
             <div className="text-right">
+              <br/>
               <button className="btn btn-info" onClick={()=>{
                 console.log(repdata);
                 axios.post('/gadget/board/reply',repdata,{
@@ -118,7 +119,7 @@ function BoardDetail(props){
             return(<div  key={index}>
             <div className="card">
               <div className="card-header">
-                <div>작성자: {element.writer} ({element.userid}) </div>
+                <div>작성자: {element.writer}</div>
               </div>
               <div className="card-body"><div className="card-text"></div>{element.content}</div>
               <div className="card-footer text-right">작성일자: {element.wdate} &nbsp;&nbsp;&nbsp;
