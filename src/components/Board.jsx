@@ -56,15 +56,17 @@ export const Board = () => {
     <br/>
     {list.map((element, index) => {
       return(
+        <>
         <div className='card' key={index} >
           <div className='card-body'onClick={()=>{navigate(`/board/${spaceid}/detail/${element.boardid}`)}}>
             <h3 className='card-title'>{element.title}</h3> <b>댓글 수: {element.repnum}</b>
             <div className='text-right'><p>{element.writer}({element.wdate}) </p></div>
           </div>
         </div>
+        <br/>
+        </>
       );
     })}
-    <br/>
     총 게시물 수: {page}
     <br/>
     <br/>

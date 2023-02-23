@@ -49,7 +49,7 @@ function BoardDetail(props){
           <button onClick={()=>{navigate(`/board/${spaceid}/list/${page.bcodeid}`)}} className='btn btn-dark'>뒤로가기</button>
         </div>
         <div className="card-body">
-        <h5 className="card-title">{page.title}</h5>
+        <h3 className="card-title">{page.title}</h3>
         <div className="text-right">
           <small className="card-text">작성자: {page.writer}</small><br/>
           <small className="card-text">작성일: {page.wdate}</small><br/>

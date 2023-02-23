@@ -122,7 +122,7 @@ export const BoardModify = () => {
         
         <div className="card">
             <div className="card-header">
-                <h5 className="card-title">수정 하기</h5>
+                <h3 className="card-title">수정 하기</h3>
             </div>
             <div className="card-body">
             <form onSubmit = {handleSubmit}>

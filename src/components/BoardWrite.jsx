@@ -41,7 +41,7 @@ export const BoardWrite = (props) => {
         fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72'],
         callbacks :{
             onImageUpload: function(files) {
-                return fileChange(files);
+                return fileChange(files[0]);
             },
         }
     };
@@ -85,7 +85,7 @@ export const BoardWrite = (props) => {
     function fileChange(file) {
         let fileurl = "";
         var form = new FormData();
-        form.append("image", file[0]);
+        form.append("image", file);
     
         console.log(form);
     
@@ -115,7 +115,7 @@ export const BoardWrite = (props) => {
         
         <div className="card">
             <div className="card-header">
-                <h5 className="card-title">글쓰기</h5>
+                <h3 className="card-title">글쓰기</h3>
             </div>
             <div className="card-body">
             <form onSubmit = {handleSubmit}>

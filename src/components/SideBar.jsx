@@ -27,7 +27,7 @@ const SideBar = () => {
     .then((res) => {
       return setSide(res.data);
     });
-  }, []);
+  }, [spaceid]);
 
   const spaceName = useSelector(state => state.space.name);
 
