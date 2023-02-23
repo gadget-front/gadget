@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from "axios";
 import { useNavigate, useParams } from 'react-router-dom';
+import { Button, Modal } from 'react-bootstrap';
 
 export const Board = () => {
   const [pageNum, setPageNum] = useState(1);
@@ -14,6 +15,10 @@ export const Board = () => {
   const [endPage, setEndPage] = useState(0);//페이지 끝번호(10, 20, 30...)
   const [startPage, setStartPage] = useState(0);//시작 페이지 번호(1, 11, 21..)
   const [realEnd, setRealEnd] = useState(0);//마지막 페이지 번호
+
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   //게시판 종류 바뀔때 초기화
   useEffect(()=>{
@@ -47,6 +52,11 @@ export const Board = () => {
     });
   },[bcodeid, page, pageNum]);
 
+  function DeleteBcode(){
+      axios.delete(`/gadget/board//${spaceid}/bcode/${bcodeid}`)
+      .then(navigate(`/main`));
+  }
+
   
   return(<div className='row'>
     <div className='col-12'>
@@ -70,7 +80,7 @@ export const Board = () => {
     총 게시물 수: {page}
     <br/>
     <br/>
-      <div className='text-right'>
+      <div className='text-center'>
         <div className="btn-group" role="group">
           <button type="button" className="btn btn-secondary" onClick={()=>{
             setPageNum(startPage-1);
@@ -85,6 +95,25 @@ export const Board = () => {
             navigate(`/board/${spaceid}/list/${bcodeid}?pageNum=${endPage+1}`)}} disabled ={!next}>next</button>
         </div>
       </div>
+      <div>
+        <br/>
+        <button className='btn btn-secondary' onClick={handleShow}>게시판 목록 삭제하기</button>
+      </div>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header>
+          <Modal.Title>삭제</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>정말로 삭제 하시겠습니까? (삭제시 복구할 수 없습니다.)</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            뒤로가기
+          </Button>
+          {' '}
+          <Button variant="primary" onClick={DeleteBcode}>
+            삭제하기
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   </div>);
 };
