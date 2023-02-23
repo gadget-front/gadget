@@ -214,3 +214,14 @@ hr {
   background-color: #e6e6e6;
 }
 
+.profile-todo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.todo-detail-middle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

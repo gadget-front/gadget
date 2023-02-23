@@ -51,7 +51,7 @@ const MakeTodoContent = () => {
     // todoInfo.current[0].value="";
     // todoInfo.current[1].value="";
     // navigate(-1);
-    createMutation.mutate({ title : todoInfo?.current[0]?.value, content : todoInfo?.current[1]?.value, startdate : startDate, enddate : endDate,  spaceid : spaceid, statename : params?.state})
+    createMutation.mutate({ title : todoInfo?.current[0]?.value, content : todoInfo?.current[1]?.value, startdate : startDate, enddate : endDate,  spaceid : spaceid, statename : params?.state, userid: sessionStorage.getItem("userid")})
   }
 
   const createMutation = useMutation(createTodoContent, {

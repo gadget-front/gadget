@@ -22,6 +22,15 @@
   height: 100%;
 }
 
+.start-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  padding-bottom: 8rem;
+  gap: 4rem;
+}
+
 .words {
   display: flex;
   justify-content: center;
@@ -30,3 +39,20 @@
 .container {
   margin: 0;
 }
+
+.login-bar {
+  display: flex;
+  justify-content: flex-end;
+  border-bottom: solid .8px #d2d3d5;
+  padding: 2rem 6%;
+}
+
+.login-bar > h3 {
+  cursor: pointer;
+}
+
+.half-highlight {
+  background: linear-gradient(180deg,rgba(255,255,255,0) 50%, #d2e9ff 50%);
+}
+
+
