@@ -59,10 +59,13 @@ function BoardDetail(props){
         <div dangerouslySetInnerHTML={{__html:page.content}}></div>
         <hr/>
         <div className="text-right">
-          <button onClick={()=>{
-            navigate(`/board/${spaceid}/modify/${boardid}`)
-          }} className="btn btn-warning">수정하기</button>{' '}
-          <button onClick={handleShow} className="btn btn-danger">삭제하기</button>
+          {
+          (userid === page.userid)?
+          (<><button onClick={()=> navigate(`/board/${spaceid}/modify/${boardid}`)} className="btn btn-warning">수정하기</button>{' '}
+          <button onClick={handleShow} className="btn btn-danger">삭제하기</button></>)
+          :null
+          }
+          
           <Modal show={show} onHide={handleClose}>
             <Modal.Header>
               <Modal.Title>삭제</Modal.Title>
@@ -123,12 +126,15 @@ function BoardDetail(props){
               </div>
               <div className="card-body"><div className="card-text"></div>{element.content}</div>
               <div className="card-footer text-right">작성일자: {element.wdate} &nbsp;&nbsp;&nbsp;
-                <button className="btn btn-danger" onClick={()=>{
-                  axios.delete(`/gadget/board/reply/${element.replyid}`)
-                  .then(response => {
-                    setA(a+1);
-                    return setRepdata(response.data);});
-                }}>삭제</button></div>
+              {(userid === element.userid)?
+              (<><button className="btn btn-danger" onClick={()=>{
+                axios.delete(`/gadget/board/reply/${element.replyid}`)
+                .then(response => {
+                  setA(a+1);
+                  return setRepdata(response.data);});
+              }}>삭제</button></>)
+              :null}
+              </div>
             </div>
             <br/>
             </div>);
