@@ -2,11 +2,7 @@ import axios from 'axios';
 import React, { Suspense, lazy, useEffect } from 'react'
 import { useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import BoardWrite from './BoardWrite';
-
 import './Category.css';
-import ErrorPage from './ErrorPage';
-import { MainPage } from './MainPage';
 
 const Group = lazy(() => import('./Group'));
 const GroupMake = lazy(() => import(('./GroupMake')));
@@ -20,6 +16,11 @@ const BoardModify = lazy(()=>import('./BoardModify'));
 const Chatting = lazy(() => import('./Chatting'));
 const TodoList = lazy(() => import('./TodoList'));
 const BoardList = lazy(()=> import('./BoardList'));
+const BoardWrite = lazy(()=> import('./BoardWrite'));
+const ErrorPage = lazy(()=> import('./ErrorPage'));
+const GoogleSpace = lazy(()=> import('./GoogleSpace'));
+const MainPage = lazy(()=> import('./MainPage'));
+const GoogleSpaceAdd = lazy(()=> import('./GoogleSpaceAdd'));
 
 export const Category = () => {
   return (
@@ -40,6 +41,8 @@ export const Category = () => {
                 <Route path='/group' element={<Group/>} /> 
                 <Route path='/groupMake' element={<GroupMake/>}/>
                 <Route path='/main' element={<MainPage/>} />
+                <Route path='/googleSpace' element={<GoogleSpace/>} />
+                <Route path='/googleSpaceAdd/:kind' element={<GoogleSpaceAdd/>} />
                 <Route path='*' element={<ErrorPage/>} />
             </Routes>
         </Suspense>

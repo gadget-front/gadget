@@ -67,6 +67,9 @@ const SideBar = () => {
           <li>
             <NavLink to={`/boardlist/${spaceid}`} style={({isActive}) => (isActive ? activeStyle : nonActiveStyle)}>게시판 추가</NavLink>
           </li>
+          <li>
+            <NavLink to={`/googleSpace`} style={({isActive}) => (isActive ? activeStyle : nonActiveStyle)}>자료공유실</NavLink>
+          </li>
         </ul>}
       </div>
     </aside>
