@@ -1,0 +1,62 @@
+.google-space-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-right: 4rem;
+  padding-left: 4rem;
+}
+
+.google-space-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.google-work-sheet {
+  list-style-type : none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.google-work-sheet li {
+  width: 10.813rem;
+  height: 5.157rem;
+  padding: 1.172rem 1.188rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  overflow:hidden;
+  cursor: pointer;
+}
+
+.google-work-sheet img {
+  cursor: pointer;
+}
+
+li > p {
+  color: #8e8e8e;
+  font-size: 0.875rem;
+}
+
+.google-drive li {
+  background-color: rgba(255, 239, 101, 0.5);
+}
+
+.google-docs li {
+  background-color: rgba(87, 175, 246, 0.5);
+}
+
+.google-sheets li {
+  background-color: rgba(121, 196, 125, 0.5);
+}
+
+.google-delete-btn {
+  position : absolute;
+  right: 0;
+  top: 0;
+}
+
+.item-box {
+  display: flex;
+  align-items: flex-start;
+}
