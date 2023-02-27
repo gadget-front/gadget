@@ -13,7 +13,7 @@ const Chatting = () => {
       <div className='card-header'>채팅방</div>
       <div className='card-body'>
         <div className="embed-responsive embed-responsive-1by1">
-          <iframe className="embed-responsive-item" src={url} width="890px" height="805px" allowFullScreen></iframe>
+          <iframe className="embed-responsive-item" src={url} width="100%" height="805px" allowFullScreen></iframe>
         </div>
       </div>
     </div>
